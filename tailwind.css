@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors - Trustworthy authority, verified information foundation */
+  --color-primary: #2B6CB0; /* blue-600 */
+  --color-primary-50: #EBF8FF; /* blue-50 */
+  --color-primary-100: #BEE3F8; /* blue-100 */
+  --color-primary-200: #90CDF4; /* blue-200 */
+  --color-primary-300: #63B3ED; /* blue-300 */
+  --color-primary-400: #4299E1; /* blue-400 */
+  --color-primary-500: #3182CE; /* blue-500 */
+  --color-primary-600: #2B6CB0; /* blue-600 */
+  --color-primary-700: #2C5282; /* blue-700 */
+  --color-primary-800: #2A4365; /* blue-800 */
+  --color-primary-900: #1A365D; /* blue-900 */
+
+  /* Secondary Colors - Safety confirmation, successful resource connections */
+  --color-secondary: #065F46; /* emerald-800 */
+  --color-secondary-50: #ECFDF5; /* emerald-50 */
+  --color-secondary-100: #D1FAE5; /* emerald-100 */
+  --color-secondary-200: #A7F3D0; /* emerald-200 */
+  --color-secondary-300: #6EE7B7; /* emerald-300 */
+  --color-secondary-400: #34D399; /* emerald-400 */
+  --color-secondary-500: #10B981; /* emerald-500 */
+  --color-secondary-600: #059669; /* emerald-600 */
+  --color-secondary-700: #047857; /* emerald-700 */
+  --color-secondary-800: #065F46; /* emerald-800 */
+  --color-secondary-900: #064E3B; /* emerald-900 */
+
+  /* Accent Colors - Emergency actions only, SOS activation */
+  --color-accent: #DC2626; /* red-600 */
+  --color-accent-50: #FEF2F2; /* red-50 */
+  --color-accent-100: #FEE2E2; /* red-100 */
+  --color-accent-200: #FECACA; /* red-200 */
+  --color-accent-300: #FCA5A5; /* red-300 */
+  --color-accent-400: #F87171; /* red-400 */
+  --color-accent-500: #EF4444; /* red-500 */
+  --color-accent-600: #DC2626; /* red-600 */
+  --color-accent-700: #B91C1C; /* red-700 */
+  --color-accent-800: #991B1B; /* red-800 */
+  --color-accent-900: #7F1D1D; /* red-900 */
+
+  /* Background Colors - Calm canvas, reduces visual stress */
+  --color-background: #F8FAFC; /* slate-50 */
+  --color-background-100: #F1F5F9; /* slate-100 */
+  --color-background-200: #E2E8F0; /* slate-200 */
+
+  /* Surface Colors - Subtle content separation, information cards */
+  --color-surface: #E2E8F0; /* slate-200 */
+  --color-surface-100: #CBD5E1; /* slate-300 */
+  --color-surface-200: #94A3B8; /* slate-400 */
+
+  /* Text Colors */
+  --color-text-primary: #1A202C; /* gray-900 */
+  --color-text-secondary: #4A5568; /* gray-600 */
+  --color-text-tertiary: #718096; /* gray-500 */
+
+  /* Status Colors */
+  --color-success: #059669; /* emerald-600 */
+  --color-warning: #D97706; /* amber-600 */
+  --color-error: #DC2626; /* red-600 */
+
+  /* Shadows */
+  --shadow-minimal: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-essential: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-emergency: 0 10px 15px -3px rgba(220, 38, 38, 0.1), 0 4px 6px -2px rgba(220, 38, 38, 0.05);
+}
+
+/* Base Styles */
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 ease-out;
+    box-shadow: var(--shadow-essential);
+  }
+
+  .btn-secondary {
+    @apply bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 ease-out;
+    box-shadow: var(--shadow-essential);
+  }
+
+  .btn-emergency {
+    @apply bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-300 ease-out border-2 border-red-600;
+    box-shadow: var(--shadow-emergency);
+  }
+
+  .card {
+    @apply bg-white rounded-lg border p-6;
+    border-color: var(--color-surface);
+    box-shadow: var(--shadow-minimal);
+  }
+
+  .card-elevated {
+    @apply bg-white rounded-lg border p-6;
+    border-color: var(--color-surface);
+    box-shadow: var(--shadow-essential);
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors duration-300 ease-out;
+    border-color: var(--color-surface);
+  }
+  .input-field:focus {
+    border-color: var(--color-primary-600);
+  }
+
+  .input-emergency {
+    @apply w-full px-4 py-3 border-2 rounded-lg focus:outline-none transition-colors duration-300 ease-out;
+    border-color: var(--color-accent-600);
+  }
+  .input-emergency:focus {
+    border-color: var(--color-accent-700);
+  }
+
+  .status-success {
+    @apply text-white px-3 py-1 rounded-full text-sm font-medium;
+    background-color: var(--color-success);
+  }
+
+  .status-warning {
+    @apply text-white px-3 py-1 rounded-full text-sm font-medium;
+    background-color: var(--color-warning);
+  }
+
+  .status-error {
+    @apply text-white px-3 py-1 rounded-full text-sm font-medium;
+    background-color: var(--color-error);
+  }
+
+  .hero-card {
+    @apply bg-white rounded-xl border-2 p-8 hover:shadow-lg transition-shadow duration-300 ease-out;
+    border-color: var(--color-surface);
+    box-shadow: var(--shadow-essential);
+  }
+
+  .emergency-alert {
+    @apply rounded-lg p-4;
+    background-color: var(--color-accent-50);
+    border: 2px solid var(--color-accent-600);
+    box-shadow: var(--shadow-emergency);
+  }
+
+  .verification-badge {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 0.75rem; /* px-3 */
+    padding-right: 0.75rem; /* px-3 */
+    padding-top: 0.25rem; /* py-1 */
+    padding-bottom: 0.25rem; /* py-1 */
+    border-radius: 9999px; /* rounded-full */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    background-color: var(--color-secondary-100); /* bg-secondary-100 */
+    color: #065F46; /* text-secondary-800 */
+    border: 1px solid #A7F3D0; /* border-secondary-200 */
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .transition-smooth {
+    transition: all 300ms ease-out;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .emergency-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2;
+  }
+}

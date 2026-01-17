@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emergency Preparedness Academy - Sahayta Crisis Response</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fsahaytacr9564back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.10"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background min-h-screen">
+   <!-- HEADER -->
+<header class="bg-white shadow-essential border-b border-surface sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+
+            <!-- Logo -->
+            <div class="flex items-center">
+                <svg class="h-8 w-8 text-primary-600" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M16 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L16 2z"/>
+                </svg>
+                <div class="ml-3">
+                    <h1 class="text-xl font-bold text-text-primary">Sahayta</h1>
+                    <p class="text-xs text-text-secondary">Crisis Response</p>
+                </div>
+            </div>
+
+            <!-- DESKTOP NAVIGATION -->
+            <nav class="hidden md:flex space-x-8">
+                    <a href="crisis_dashboard_homepage.html" class="text-primary-600 font-semibold border-b-2 border-primary-600 pb-1">Dashboard</a>
+                    <a href="live_crisis_intelligence_map.html" class="text-text-secondary hover:text-primary-600 transition-colors">Crisis Map</a>
+                    <a href="resource_directory_locator.html" class="text-text-secondary hover:text-primary-600 transition-colors">Resources</a>
+                    <a href="communication_verfication_centre.html" class="text-text-secondary hover:text-primary-600 transition-colors">Community</a>
+                    <a href="emergency_prepared_academy.html" class="text-text-secondary hover:text-primary-600 transition-colors">Preparedness</a>
+                    <a href="sos_emergency_activation.html" class="text-text-secondary hover:text-primary-600 transition-colors">SOS</a>
+                </nav>
+
+            <!-- MOBILE MENU BUTTON -->
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="text-text-secondary hover:text-primary-600">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-surface">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a href="crisis_dashboard_homepage.html" class="block px-3 py-2">Dashboard</a>
+            <a href="live_crisis_intelligence_map.html" class="block px-3 py-2">Crisis Map</a>
+            <a href="resource_directory_locator.html" class="block px-3 py-2">Resources</a>
+            <a href="communication_verification_centre.html" class="block px-3 py-2">Community</a>
+            <a href="sos_emergency_activation.html" class="block px-3 py-2">SOS</a>
+        </div>
+    </div>
+</header>
+
+<script>
+function toggleMobileMenu() {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+}
+</script>
+
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-surface">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="crisis_dashboarh_homepage.html" class="block px-3 py-2 text-primary-600 font-semibold bg-primary-50 rounded-md">Dashboard</a>
+                <a href="live_crisis_intelligence_map.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors">Crisis Map</a>
+                <a href="resource_directory_locator.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors">Resources</a>
+                <a href="communication_verfication_centre.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors">Community</a>
+                <a href="sos_emergency_activation.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors">SOS</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Hero Section -->
+        <section class="mb-8">
+            <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl shadow-essential border border-surface p-8">
+                <div class="flex flex-col lg:flex-row items-center justify-between">
+                    <div class="lg:w-2/3 mb-6 lg:mb-0">
+                        <h1 class="text-4xl font-bold text-text-primary mb-4">Emergency Preparedness Academy</h1>
+                        <p class="text-xl text-text-secondary mb-6">Build resilience through knowledge. Learn essential emergency preparedness skills tailored to your community's unique risks and resources.</p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="startLearning()" class="btn-primary">Start Learning Journey</button>
+                            <a href="#progress-tracker" class="btn-secondary">View My Progress</a>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/3 flex justify-center">
+                        <img src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=400&h=300&fit=crop" alt="Emergency preparedness training" class="rounded-lg shadow-essential w-full max-w-sm object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Tracker -->
+        <section id="progress-tracker" class="mb-8">
+            <div class="bg-white rounded-xl shadow-essential border border-surface p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-text-primary">Your Learning Progress</h2>
+                    <div class="flex items-center">
+                        <span class="text-sm text-text-secondary mr-2">Overall Progress:</span>
+                        <span class="text-lg font-bold text-primary-600">68%</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-primary-50 rounded-lg p-4 border border-primary-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-primary-800">Natural Disasters</h3>
+                            <span class="text-sm font-bold text-primary-600">85%</span>
+                        </div>
+                        <div class="w-full bg-primary-200 rounded-full h-2">
+                            <div class="bg-primary-600 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                        <p class="text-xs text-primary-700 mt-2">8/10 modules completed</p>
+                    </div>
+                    
+                    <div class="bg-secondary-50 rounded-lg p-4 border border-secondary-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-secondary-800">Medical Emergencies</h3>
+                            <span class="text-sm font-bold text-secondary-600">60%</span>
+                        </div>
+                        <div class="w-full bg-secondary-200 rounded-full h-2">
+                            <div class="bg-secondary-600 h-2 rounded-full" style="width: 60%"></div>
+                        </div>
+                        <p class="text-xs text-secondary-700 mt-2">6/10 modules completed</p>
+                    </div>
+                    
+                    <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-yellow-800">Security Threats</h3>
+                            <span class="text-sm font-bold text-warning">45%</span>
+                        </div>
+                        <div class="w-full bg-yellow-200 rounded-full h-2">
+                            <div class="bg-warning h-2 rounded-full" style="width: 45%"></div>
+                        </div>
+                        <p class="text-xs text-yellow-700 mt-2">4/9 modules completed</p>
+                    </div>
+                    
+                    <div class="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-purple-800">Infrastructure</h3>
+                            <span class="text-sm font-bold text-purple-600">75%</span>
+                        </div>
+                        <div class="w-full bg-purple-200 rounded-full h-2">
+                            <div class="bg-purple-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <p class="text-xs text-purple-700 mt-2">6/8 modules completed</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-sm text-text-secondary">24 modules completed • 11 certificates earned</span>
+                    </div>
+                    <button class="text-primary-600 hover:text-primary-700 font-medium text-sm">View All Achievements</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Modules -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-text-primary mb-6">Learning Modules by Emergency Type</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Natural Disasters Module -->
+                <div class="bg-white rounded-xl shadow-essential border border-surface p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-text-primary mb-2">Natural Disasters</h3>
+                            <p class="text-text-secondary mb-4">Comprehensive preparation for floods, earthquakes, cyclones, and other natural hazards specific to Mumbai region.</p>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm text-text-tertiary">10 modules • 3-4 hours</span>
+                                <span class="verification-badge">85% Complete</span>
+                            </div>
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-sm">
+                                    <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-text-secondary">Flood preparedness & evacuation</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-text-secondary">Earthquake safety protocols</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <div class="w-4 h-4 border-2 border-surface rounded mr-2"></div>
+                                    <span class="text-text-tertiary">Cyclone preparation checklist</span>
+                                </div>
+                            </div>
+                            <button onclick="continueModule('natural-disasters')" class="btn-primary w-full">Continue Learning</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Emergencies Module -->
+                <div class="bg-white rounded-xl shadow-essential border border-surface p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-accent-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-text-primary mb-2">Medical Emergencies</h3>
+                            <p class="text-text-secondary mb-4">Essential first aid skills, medical emergency response, and health crisis management for families.</p>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm text-text-tertiary">10 modules • 4-5 hours</span>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-warning">60% Complete</span>
+                            </div>
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-sm">
+                                    <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-text-secondary">CPR & Basic Life Support</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-text-secondary">Wound care & bleeding control</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <div class="w-4 h-4 border-2 border-surface rounded mr-2"></div>
+                                    <span class="text-text-tertiary">Medical emergency kit assembly</span>
+                                </div>
+                            </div>
+                            <button onclick="continueModule('medical-emergencies')" class="bg-accent-600 hover:bg-accent-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full">Continue Learning</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Threats Module -->
+                <div class="bg-white rounded-xl shadow-essential border border-surface p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-text-primary mb-2">Security Threats</h3>
+                            <p class="text-text-secondary mb-4">Personal safety protocols, threat assessment, and security awareness for various emergency scenarios.</p>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm text-text-tertiary">9 modules • 3-4 hours</span>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-warning">45% Complete</span>
+                            </div>
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-sm">
+                                    <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-text-secondary">Personal safety awareness</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <div class="w-4 h-4 border-2 border-surface rounded mr-2"></div>
+                                    <span class="text-text-tertiary">Emergency communication protocols</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <div class="w-4 h-4 border-2 border-surface rounded mr-2"></div>
+                                    <span class="text-text-tertiary">Threat assessment techniques</span>
+                                </div>
+                            </div>
+                            <button onclick="continueModule('security-threats')" class="bg-warning hover:bg-yellow-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Infrastructure Failures Module -->
+                <div class="bg-white rounded-xl shadow-essential border border-surface p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-text-primary mb-2">Infrastructure Failures</h3>
+                            <p class="text-text-secondary mb-4">Preparation for power outages, water shortages, communication breakdowns, and transportation disruptions.</p>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm text-text-tertiary">8 modules • 2-3 hours</span>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">75% Complete</span>
+                            </div>
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center text-sm">
+                                    <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-text-secondary">Power outage preparedness</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-text-secondary">Water storage & purification</span>
+                                </div>
+                                <div class="flex items-center text-sm">
+                                    <div class="w-4 h-4 border-2 border-surface rounded mr-2"></div>
+                                    <span class="text-text-tertiary">Alternative communication methods</span>
+                                </div>
+                            </div>
+                            <button onclick="continueModule('infrastructure-failures')" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full">Continue Learning</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Preparedness Checklists -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-text-primary mb-6">Interactive Preparedness Checklists</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Emergency Kit Checklist -->
+                <div class="bg-white rounded-xl shadow-essential border border-surface p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-text-primary">Emergency Kit Assembly</h3>
+                        <span class="text-sm font-bold text-primary-600">12/20 items</span>
+                    </div>
+                    <div class="w-full bg-surface rounded-full h-2 mb-4">
+                        <div class="bg-primary-600 h-2 rounded-full" style="width: 60%"></div>
+                    </div>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center">
+                            <input type="checkbox" checked class="w-4 h-4 text-primary-600 border-surface rounded focus:ring-primary-500" id="water-supply" />
+                            <label for="water-supply" class="ml-3 text-text-secondary">Water supply (1 gallon per person per day for 3 days)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" checked class="w-4 h-4 text-primary-600 border-surface rounded focus:ring-primary-500" id="food-supply" />
+                            <label for="food-supply" class="ml-3 text-text-secondary">Non-perishable food (3-day supply)</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" class="w-4 h-4 text-primary-600 border-surface rounded focus:ring-primary-500" id="flashlight" />
+                            <label for="flashlight" class="ml-3 text-text-secondary">Battery-powered or hand crank radio and flashlight</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" class="w-4 h-4 text-primary-600 border-surface rounded focus:ring-primary-500" id="first-aid" />
+                            <label for="first-aid" class="ml-3 text-text-secondary">First aid kit and medications</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" checked class="w-4 h-4 text-primary-600 border-surface rounded focus:ring-primary-500" id="documents" />
+                            <label for="documents" class="ml-3 text-text-secondary">Important documents (copies in waterproof container)</label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary w-full">View Complete Checklist</button>
+                </div>
+
+                <!-- Family Communication Plan -->
+                <div class="bg-white rounded-xl shadow-essential border border-surface p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-text-primary">Family Communication Plan</h3>
+                        <span class="text-sm font-bold text-secondary-600">8/10 steps</span>
+                    </div>
+                    <div class="w-full bg-surface rounded-full h-2 mb-4">
+                        <div class="bg-secondary-600 h-2 rounded-full" style="width: 80%"></div>
+                    </div>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-secondary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-text-secondary">Emergency contact information collected</span>
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-secondary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-text-secondary">Meeting locations identified</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 border-2 border-surface rounded mr-3"></div>
+                            <span class="text-text-tertiary">Evacuation routes planned</span>
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-secondary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-text-secondary">Special needs considerations documented</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 border-2 border-surface rounded mr-3"></div>
+                            <span class="text-text-tertiary">Plan shared with all family members</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-secondary w-full">Complete Plan Builder</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Resilience Modules -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-text-primary mb-6">Community Resilience</h2>
+            <div class="bg-white rounded-xl shadow-essential border border-surface p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-text-primary mb-2">Neighborhood Networks</h3>
+                        <p class="text-text-secondary mb-4">Build connections with neighbors and organize mutual aid groups for emergency response.</p>
+                        <button class="text-primary-600 hover:text-primary-700 font-medium">Learn More →</button>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-text-primary mb-2">Resource Sharing</h3>
+                        <p class="text-text-secondary mb-4">Coordinate community resources and establish sharing protocols for emergency situations.</p>
+                        <button class="text-secondary-600 hover:text-secondary-700 font-medium">Learn More →</button>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-text-primary mb-2">Communication Hubs</h3>
+                        <p class="text-text-secondary mb-4">Establish reliable communication channels and information sharing systems within your community.</p>
+                        <button class="text-warning hover:text-yellow-700 font-medium">Learn More →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resource Library -->
+        <section class="mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-text-primary">Resource Library</h2>
+                <div class="flex items-center space-x-4">
+                    <select class="input-field py-2 text-sm">
+                        <option>All Categories</option>
+                        <option>Downloadable Guides</option>
+                        <option>Video Tutorials</option>
+                        <option>Expert Interviews</option>
+                        <option>Local Resources</option>
+                    </select>
+                    <button class="text-primary-600 hover:text-primary-700 font-medium">View All</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Resource Item 1 -->
+                <div class="bg-white rounded-lg shadow-minimal border border-surface p-4 hover:shadow-essential transition-shadow">
+                    <img src="https://images.pexels.com/photos/8867482/pexels-photo-8867482.jpeg?w=300&h=200&fit=crop" alt="Emergency preparedness guide" class="w-full h-32 object-cover rounded-lg mb-4" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                            Guide
+                        </span>
+                        <span class="text-xs text-text-tertiary">PDF • 2.3 MB</span>
+                    </div>
+                    <h3 class="font-semibold text-text-primary mb-2">Mumbai Flood Preparedness Guide</h3>
+                    <p class="text-sm text-text-secondary mb-3">Comprehensive guide for flood preparation specific to Mumbai's geography and infrastructure.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-text-tertiary">Updated: Sep 2025</span>
+                        <button class="text-primary-600 hover:text-primary-700 font-medium text-sm">Download</button>
+                    </div>
+                </div>
+
+                <!-- Resource Item 2 -->
+                <div class="bg-white rounded-lg shadow-minimal border border-surface p-4 hover:shadow-essential transition-shadow">
+                    <img src="https://images.pixabay.com/photo/2016/11/29/06/15/first-aid-1867746_1280.jpg?w=300&h=200&fit=crop" alt="First aid training video" class="w-full h-32 object-cover rounded-lg mb-4" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-accent-100 text-accent-800">
+                            Video
+                        </span>
+                        <span class="text-xs text-text-tertiary">15 min</span>
+                    </div>
+                    <h3 class="font-semibold text-text-primary mb-2">Basic First Aid Techniques</h3>
+                    <p class="text-sm text-text-secondary mb-3">Step-by-step video tutorial covering essential first aid skills for common emergencies.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-text-tertiary">Hindi & English</span>
+                        <button class="text-accent-600 hover:text-accent-700 font-medium text-sm">Watch Now</button>
+                    </div>
+                </div>
+
+                <!-- Resource Item 3 -->
+                <div class="bg-white rounded-lg shadow-minimal border border-surface p-4 hover:shadow-essential transition-shadow">
+                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop" alt="Expert interview" class="w-full h-32 object-cover rounded-lg mb-4" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">
+                            Interview
+                        </span>
+                        <span class="text-xs text-text-tertiary">25 min</span>
+                    </div>
+                    <h3 class="font-semibold text-text-primary mb-2">Expert Talk: Disaster Management</h3>
+                    <p class="text-sm text-text-secondary mb-3">Interview with Mumbai's Chief Emergency Officer on urban disaster preparedness strategies.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-text-tertiary">Dr. Priya Sharma</span>
+                        <button class="text-secondary-600 hover:text-secondary-700 font-medium text-sm">Listen</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Challenges -->
+        <section class="mb-8">
+            <div class="bg-gradient-to-r from-secondary-50 to-primary-50 rounded-xl shadow-essential border border-surface p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-text-primary">Community Challenges</h2>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-sm font-medium text-secondary-700">Join 2,847 participants</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg p-4 border border-surface">
+                        <h3 class="font-bold text-text-primary mb-2">September Preparedness Challenge</h3>
+                        <p class="text-text-secondary mb-3">Complete your family emergency plan and emergency kit this month. Track progress with the community!</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-sm text-text-tertiary">Progress: 68%</span>
+                            <span class="text-sm font-medium text-secondary-600">12 days left</span>
+                        </div>
+                        <div class="w-full bg-surface rounded-full h-2 mb-4">
+                            <div class="bg-secondary-600 h-2 rounded-full" style="width: 68%"></div>
+                        </div>
+                        <button class="btn-secondary w-full">Continue Challenge</button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 border border-surface">
+                        <h3 class="font-bold text-text-primary mb-2">Neighborhood Resilience Week</h3>
+                        <p class="text-text-secondary mb-3">Connect with neighbors, share resources, and build community emergency response networks.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-sm text-text-tertiary">Participants: 156</span>
+                            <span class="text-sm font-medium text-primary-600">Starting Oct 1</span>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <div class="flex -space-x-2">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Participant" class="w-8 h-8 rounded-full border-2 border-white object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?w=32&h=32&fit=crop&crop=face" alt="Participant" class="w-8 h-8 rounded-full border-2 border-white object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                <img src="https://images.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg?w=32&h=32&fit=crop&crop=face" alt="Participant" class="w-8 h-8 rounded-full border-2 border-white object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                <div class="w-8 h-8 rounded-full border-2 border-white bg-primary-100 flex items-center justify-center">
+                                    <span class="text-xs font-medium text-primary-600">+153</span>
+                                </div>
+                            </div>
+                            <span class="ml-3 text-sm text-text-tertiary">and 153 others joined</span>
+                        </div>
+                        <button class="btn-primary w-full">Join Challenge</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-surface mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-primary-600" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L16 2z"/>
+                            <path d="M14 14h4v4h-4z" fill="white"/>
+                            <path d="M12 10h8v2h-8z" fill="white"/>
+                            <path d="M12 20h8v2h-8z" fill="white"/>
+                        </svg>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-bold text-text-primary">Sahayta</h3>
+                            <p class="text-sm text-text-secondary">Crisis Response Platform</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4">Empowering communities through verified crisis intelligence and coordinated emergency response.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-4">Emergency</h4>
+                    <ul class="space-y-2">
+                        <li><a href="sos_emergency_activation.html" class="text-text-secondary hover:text-primary-600">SOS Alert</a></li>
+                        <li><a href="resource_directory_locator.html" class="text-text-secondary hover:text-primary-600">Find Resources</a></li>
+                        <li><a href="live_crisis_intelligence_map.html" class="text-text-secondary hover:text-primary-600">Crisis Map</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-4">Community</h4>
+                    <ul class="space-y-2">
+                        <li><a href="community_verification_center.html" class="text-text-secondary hover:text-primary-600">Verification Center</a></li>
+                        <li><a href="emergency_preparedness_academy.html" class="text-text-secondary hover:text-primary-600">Preparedness</a></li>
+                        <li><a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600">Volunteer</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-surface pt-8 mt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-text-secondary text-sm">© 2025 Sahayta Crisis Response. All Rights Reserved.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Privacy Policy</a>
+                        <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Terms of Service</a>
+                        <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function startLearning() {
+            // Scroll to learning modules section
+            document.querySelector('section:nth-of-type(3)').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function continueModule(moduleType) {
+            // In a real application, this would navigate to the specific module
+            console.log(`Continuing ${moduleType} module...`);
+            alert(`Starting ${moduleType.replace('-', ' ')} learning module. This would navigate to the detailed course content.`);
+        }
+
+        // Simulate progress updates
+        function updateProgress() {
+            // In a real application, this would fetch actual progress data
+            console.log('Updating learning progress...');
+        }
+
+        // Update progress every 30 seconds
+        setInterval(updateProgress, 30000);
+
+        // Handle checklist interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // In a real application, this would save progress
+                    console.log(`Checklist item ${this.id} ${this.checked ? 'completed' : 'unchecked'}`);
+                });
+            });
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

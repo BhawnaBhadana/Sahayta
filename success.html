@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Success - Sahayta</title>
+
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f8fafc;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      text-align: center;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      width: 350px;
+      border-radius: 20px;
+      box-shadow: 0px 8px 22px rgba(0,0,0,0.06);
+    }
+
+    .check {
+      font-size: 60px;
+      color: #22c55e;
+    }
+
+    button {
+      background: #4e6af5;
+      border: none;
+      padding: 12px 20px;
+      color: white;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="check">✔</div>
+  <h2>Password Updated!</h2>
+  <p>You can now login with your new password.</p>
+
+  <button onclick="goLogin()">Go to Login</button>
+</div>
+
+<script>
+function goLogin(){
+  window.location.href = "auth.html";
+}
+</script>
+
+</body>
+</html>

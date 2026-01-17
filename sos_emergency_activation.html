@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SOS Emergency Activation - Sahayta Crisis Response</title>
+  <!-- KEEP THESE EXACT: do not change or edit CSS files -->
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/tailwind.css" />
+</head>
+<body class="bg-background min-h-screen">
+  <!-- Header -->
+  <header class="bg-white shadow-essential border-b border-surface sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-8 w-8 text-primary-600" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+              <path d="M16 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L16 2z"/>
+              <path d="M14 14h4v4h-4z" fill="white"/>
+              <path d="M12 10h8v2h-8z" fill="white"/>
+              <path d="M12 20h8v2h-8z" fill="white"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h1 class="text-xl font-bold text-text-primary">Sahayta</h1>
+            <p class="text-xs text-text-secondary">Crisis Response</p>
+          </div>
+        </div>
+
+        <nav class="hidden md:flex space-x-8">
+                    <a href="crisis_dashboard_homepage.html" class="text-primary-600 font-semibold border-b-2 border-primary-600 pb-1">Dashboard</a>
+                    <a href="live_crisis_intelligence_map.html" class="text-text-secondary hover:text-primary-600 transition-colors">Crisis Map</a>
+                    <a href="resource_directory_locator.html" class="text-text-secondary hover:text-primary-600 transition-colors">Resources</a>
+                    <a href="communication_verfication_centre.html" class="text-text-secondary hover:text-primary-600 transition-colors">Community</a>
+                    <a href="emergency_prepared_academy.html" class="text-text-secondary hover:text-primary-600 transition-colors">Preparedness</a>
+                    <a href="sos_emergency_activation.html" class="text-text-secondary hover:text-primary-600 transition-colors">SOS</a>
+                </nav>
+
+        <div class="md:hidden">
+          <button id="menu-btn" class="text-text-secondary hover:text-primary-600 focus:outline-none" aria-expanded="false" aria-controls="mobile-menu">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-surface">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="crisis_dashboarh_homepage.html" class="block px-3 py-2 text-primary-600 font-semibold bg-primary-50 rounded-md">Dashboard</a>
+        <a href="live_crisis_intelligence_map.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 rounded-md">Crisis Map</a>
+        <a href="resource_directory_locator.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 rounded-md">Resources</a>
+        <a href="communication_verfication_centre.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 rounded-md">Community</a>
+        <a href="sos_emergency_activation.html" class="block px-3 py-2 text-primary-600 font-semibold bg-primary-50 rounded-md">SOS</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-8">
+    <!-- Location card (OPEN MAP removed) -->
+    <section class="mb-8">
+      <div class="bg-white rounded-xl shadow-essential border border-surface p-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="lg:flex-1">
+          <h2 class="text-2xl font-bold text-text-primary mb-3">Current Location</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-primary-50 rounded-lg p-4 border border-primary-200">
+              <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+                  <svg class="w-5 h-5 text-primary-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-primary-800">Auto-Detected</h3>
+                  <p id="auto-location" class="text-primary-700 mt-2 font-mono">Detecting...</p>
+                  <p id="auto-address" class="text-primary-600 text-sm mt-1">—</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface rounded-lg p-4 border border-surface-100">
+              <h3 class="font-semibold text-text-primary mb-2">Manual Override</h3>
+              <div id="manual-block" class="">
+                <button id="edit-location-btn" class="w-full bg-white border-2 border-surface-100 hover:border-primary-600 text-text-secondary hover:text-primary-600 font-medium py-3 px-4 rounded-lg">
+                  <svg class="inline w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+                  Edit Location
+                </button>
+              </div>
+
+              <div id="location-override" class="mt-3 hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <input id="manual-lat" class="input-field" placeholder="Latitude" />
+                  <input id="manual-lng" class="input-field" placeholder="Longitude" />
+                </div>
+                <input id="manual-address" class="input-field mt-3" placeholder="Address or landmark" />
+                <div class="flex gap-3 mt-3">
+                  <button id="save-location-btn" class="btn-primary">Save Location</button>
+                  <button id="cancel-location-btn" class="bg-surface hover:bg-surface-100 text-text-secondary font-medium py-3 px-6 rounded-lg">Cancel</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-6 lg:w-1/3">
+          <div class="flex items-center gap-2">
+            <div id="location-indicator" class="w-3 h-3 bg-secondary-600 rounded-full"></div>
+            <span id="location-status" class="text-sm text-text-secondary">Location detected</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOS circular button -->
+    <section class="mb-8">
+      <div class="bg-white rounded-xl shadow-essential border border-accent-200 p-8 text-center">
+        <h2 class="text-3xl font-bold text-text-primary mb-2">Emergency Activation</h2>
+        <p class="text-text-secondary mb-6">Hold button for 3 seconds to activate emergency alert</p>
+
+        <div class="flex justify-center">
+          <div class="relative inline-block">
+            <button id="sos-button" aria-pressed="false"
+                    class="w-72 h-72 rounded-full bg-accent-600 hover:bg-accent-700 text-white font-black shadow-emergency border-8 border-accent-600 flex flex-col items-center justify-center">
+              <svg class="w-24 h-24 mb-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-4xl">SOS</span>
+              <span class="text-lg mt-1">EMERGENCY</span>
+            </button>
+
+            <!-- Progress ring -->
+            <div id="progress-ring" class="absolute inset-0 hidden pointer-events-none">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100" role="img" aria-label="activation progress">
+                <circle cx="50" cy="50" r="48" stroke="white" stroke-width="4" fill="none" opacity="0.25"/>
+                <circle id="progress-circle" cx="50" cy="50" r="48" stroke="white" stroke-width="4" fill="none" stroke-dasharray="301.59" stroke-dashoffset="301.59" class="transition-all duration-75 ease-linear"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-text-tertiary mt-4">Release button to cancel activation</p>
+      </div>
+    </section>
+
+    <!-- Lower section: description, media, contacts -->
+    <section class="mb-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white rounded-xl shadow-essential border border-surface p-6">
+          <h3 class="text-xl font-bold text-text-primary mb-3">Incident Description</h3>
+          <textarea id="incident-description" maxlength="500" class="input-field w-full h-28 resize-none" placeholder="Describe the emergency (optional)"></textarea>
+          <div class="flex items-center justify-between mt-3">
+            <span class="text-sm text-text-secondary">Helps responders prepare.</span>
+            <span class="text-xs text-text-tertiary" id="char-count">0/500</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+            <div class="p-3 bg-surface rounded-lg">
+              <h4 class="font-semibold mb-2">Voice Note</h4>
+              <button id="voice-start" class="btn-primary w-full py-2">Start Recording</button>
+              <button id="voice-stop" class="bg-surface w-full py-2 rounded hidden">Stop</button>
+              <audio id="audio-play" controls class="w-full mt-2 hidden"></audio>
+              <div id="audio-status" class="text-sm text-text-tertiary mt-2">No recording</div>
+            </div>
+
+            <div class="p-3 bg-surface rounded-lg">
+              <h4 class="font-semibold mb-2">Snapshot</h4>
+              <video id="camera-preview" autoplay playsinline class="w-full h-28 bg-black rounded mb-2 hidden"></video>
+              <img id="snapshot-preview" class="w-full h-28 object-cover rounded mb-2 hidden" alt="snapshot preview">
+              <div class="flex gap-2">
+                <button id="open-camera" class="btn-primary flex-1 py-2">Open Camera</button>
+                <button id="take-snapshot" class="bg-surface flex-1 py-2 rounded hidden">Capture</button>
+              </div>
+              <div id="camera-status" class="text-sm text-text-tertiary mt-2">No snapshot</div>
+            </div>
+
+            <div class="p-3 bg-surface rounded-lg">
+              <h4 class="font-semibold mb-2">Fallback & Notifications</h4>
+              <p class="text-sm text-text-secondary">If backend fails, SMS/WhatsApp fallback will open and a local notification will appear (permission required).</p>
+              <button id="request-notif" class="btn-primary mt-3 w-full py-2">Enable Notifications</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-essential border border-surface p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-text-primary">Emergency Contacts</h3>
+            <div class="flex items-center gap-2">
+              <button id="add-contact-btn" class="btn-primary">Add Contact</button>
+              <button id="export-contacts" class="bg-surface px-3 py-2 rounded">Export</button>
+            </div>
+          </div>
+
+          <div id="contacts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+          <p class="text-sm text-text-tertiary mt-3">Click a contact to include/exclude from the alert.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (unchanged) -->
+  <footer class="bg-white border-t border-surface mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-2">
+          <div class="flex items-center mb-4">
+            <svg class="h-8 w-8 text-primary-600" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+              <path d="M16 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L16 2z"/>
+              <path d="M14 14h4v4h-4z" fill="white"/>
+              <path d="M12 10h8v2h-8z" fill="white"/>
+              <path d="M12 20h8v2h-8z" fill="white"/>
+            </svg>
+            <div class="ml-3">
+              <h3 class="text-lg font-bold text-text-primary">Sahayta</h3>
+              <p class="text-sm text-text-secondary">Crisis Response Platform</p>
+            </div>
+          </div>
+          <p class="text-text-secondary mb-4">Empowering communities through verified crisis intelligence and coordinated emergency response.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-text-primary mb-4">Emergency</h4>
+          <ul class="space-y-2">
+            <li><a href="sos_emergency_activation.html" class="text-accent-600 hover:text-accent-700 font-medium">SOS Alert</a></li>
+            <li><a href="resource_directory_locator.html" class="text-text-secondary hover:text-primary-600">Find Resources</a></li>
+            <li><a href="live_crisis_intelligence_map.html" class="text-text-secondary hover:text-primary-600">Crisis Map</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-text-primary mb-4">Community</h4>
+          <ul class="space-y-2">
+            <li><a href="community_verification_center.html" class="text-text-secondary hover:text-primary-600">Verification Center</a></li>
+            <li><a href="emergency_preparedness_academy.html" class="text-text-secondary hover:text-primary-600">Preparedness</a></li>
+            <li><a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600">Volunteer</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-surface pt-8 mt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-text-secondary text-sm">© 2025 Sahayta Crisis Response. All Rights Reserved.</p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+            <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Privacy Policy</a>
+            <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Terms of Service</a>
+            <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg w-80 shadow-lg">
+      <h3 id="contactModalTitle" class="text-xl font-bold mb-3">Add Contact</h3>
+      <input id="contact-name" placeholder="Name" class="input-field mb-2" />
+      <input id="contact-phone" placeholder="Phone (+countrycode)" class="input-field mb-4" />
+      <div class="flex justify-end gap-3">
+        <button id="cancel-contact" class="bg-surface py-2 px-4 rounded">Cancel</button>
+        <button id="save-contact" class="btn-primary py-2 px-4">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg w-96 shadow-lg">
+      <h3 class="text-xl font-bold mb-2">Send SOS Alert?</h3>
+      <p class="text-text-secondary mb-4">This will send your location, description, and attachments to selected contacts and responders.</p>
+      <div class="flex gap-3 justify-end">
+        <button id="cancel-send" class="bg-surface py-2 px-4 rounded">Cancel</button>
+        <button id="confirm-send" class="btn-primary py-2 px-4">Send SOS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 hidden bg-primary-600 text-white px-4 py-2 rounded shadow-lg z-60"></div>
+
+<script>
+/* =========================
+   Full JS: location, contacts, media, sos, fallback, sw
+   ========================= */
+
+/* Constants and utils */
+const ACTIVATION_MS = 3000;
+const PROG_R = 48;
+const CIRCUMFERENCE = 2 * Math.PI * PROG_R;
+const progressCircle = document.getElementById('progress-circle');
+if (progressCircle) {
+  progressCircle.setAttribute('stroke-dasharray', CIRCUMFERENCE);
+  progressCircle.style.strokeDashoffset = CIRCUMFERENCE;
+}
+const $ = id => document.getElementById(id);
+function toast(msg, t=3000){
+  const el = $('toast'); if (!el) return;
+  el.textContent = msg; el.classList.remove('hidden');
+  clearTimeout(el._to); el._to = setTimeout(()=> el.classList.add('hidden'), t);
+}
+
+/* Mobile menu */
+$('menu-btn')?.addEventListener('click', ()=> $('mobile-menu')?.classList.toggle('hidden'));
+
+/* Location initialization + manual override */
+function setLocationText(lat, lng, addr){
+  $('auto-location').textContent = `${lat}°, ${lng}°`;
+  $('auto-location').dataset.lat = lat;
+  $('auto-location').dataset.lng = lng;
+  if (addr) $('auto-address').textContent = addr;
+}
+function initializeLocation(){
+  const status = $('location-status');
+  if (!navigator.geolocation){ status.textContent = 'Location not available'; setLocationText('19.0760','72.8777','Mumbai, Maharashtra'); return; }
+  status.textContent = 'Detecting location...'; $('location-indicator').classList.add('animate-pulse');
+  navigator.geolocation.getCurrentPosition((pos)=>{
+    const lat = Number(pos.coords.latitude).toFixed(4);
+    const lng = Number(pos.coords.longitude).toFixed(4);
+    setLocationText(lat,lng,'Detected location'); status.textContent = 'Location detected'; $('location-indicator').classList.remove('animate-pulse');
+  }, (err)=>{
+    console.warn('geo err',err); status.textContent = 'Using default location'; $('location-indicator').classList.remove('animate-pulse'); $('location-indicator').classList.add('bg-warning'); setLocationText('19.0760','72.8777','Mumbai, Maharashtra');
+  }, { timeout: 8000 });
+}
+initializeLocation();
+
+$('edit-location-btn').addEventListener('click', ()=> $('location-override').classList.toggle('hidden'));
+$('cancel-location-btn').addEventListener('click', ()=> { $('location-override').classList.add('hidden'); });
+$('save-location-btn').addEventListener('click', ()=>{
+  const lat = $('manual-lat').value.trim(); const lng = $('manual-lng').value.trim(); const addr = $('manual-address').value.trim();
+  if (lat && lng){ setLocationText(lat,lng, addr || $('auto-address').textContent); toast('Manual location saved'); }
+  else if (addr){ $('auto-address').textContent = addr; toast('Address saved'); }
+  else toast('Provide latitude & longitude or an address');
+  $('location-override').classList.add('hidden');
+});
+
+/* Contacts (no images), localStorage */
+let contacts = JSON.parse(localStorage.getItem('sahayta_contacts') || '[]');
+let selectedContacts = new Set(contacts.map((c,i)=>i));
+function saveContacts(){ localStorage.setItem('sahayta_contacts', JSON.stringify(contacts)); }
+function renderContacts(){
+  const grid = $('contacts-grid'); grid.innerHTML = '';
+  contacts.forEach((c, idx) => {
+    const el = document.createElement('div');
+    el.className = 'p-3 rounded-lg border flex flex-col';
+    el.tabIndex = 0;
+    el.innerHTML = `
+      <div class="flex-1">
+        <div class="font-semibold text-text-primary">${c.name}</div>
+        <div class="text-sm text-text-secondary">${c.phone}</div>
+      </div>
+      <div class="flex items-center gap-2 mt-3">
+        <button data-edit="${idx}" class="text-secondary-600 text-sm">Edit</button>
+        <button data-del="${idx}" class="text-accent-600 text-sm">Remove</button>
+        <button data-toggle="${idx}" class="ml-auto text-sm">${selectedContacts.has(idx)?'Included':'Exclude'}</button>
+      </div>
+    `;
+    el.querySelector('[data-toggle]')?.addEventListener('click', (e)=>{ e.stopPropagation(); if (selectedContacts.has(idx)) selectedContacts.delete(idx); else selectedContacts.add(idx); renderContacts(); });
+    el.querySelector('[data-edit]')?.addEventListener('click', (e)=>{ e.stopPropagation(); openContactModal(idx); });
+    el.querySelector('[data-del]')?.addEventListener('click', (e)=>{ e.stopPropagation(); if (!confirm('Remove this contact?')) return; contacts.splice(idx,1); selectedContacts = new Set(contacts.map((_,i)=>i)); saveContacts(); renderContacts(); toast('Contact removed'); });
+    grid.appendChild(el);
+  });
+}
+renderContacts();
+
+function openContactModal(idx = null){
+  $('contactModal').classList.remove('hidden');
+  if (idx === null){ $('contactModalTitle').textContent='Add Contact'; $('contact-name').value=''; $('contact-phone').value=''; $('contactModal').dataset.editIdx=''; }
+  else { $('contactModalTitle').textContent='Edit Contact'; $('contact-name').value=contacts[idx].name; $('contact-phone').value=contacts[idx].phone; $('contactModal').dataset.editIdx=String(idx); }
+}
+$('add-contact-btn').addEventListener('click', ()=> openContactModal(null));
+$('cancel-contact').addEventListener('click', ()=> $('contactModal').classList.add('hidden'));
+$('save-contact').addEventListener('click', ()=>{
+  const name = $('contact-name').value.trim(); const phone = $('contact-phone').value.trim();
+  if (!name || !phone){ alert('Provide name and phone'); return; }
+  const idx = $('contactModal').dataset.editIdx;
+  if (idx === '') { contacts.push({ name, phone }); selectedContacts.add(contacts.length-1); toast('Contact added'); }
+  else { contacts[Number(idx)] = { name, phone }; toast('Contact updated'); }
+  saveContacts(); renderContacts(); $('contactModal').classList.add('hidden');
+});
+$('export-contacts').addEventListener('click', ()=>{
+  const data = JSON.stringify(contacts, null, 2); const b = new Blob([data], { type:'application/json' }); const url = URL.createObjectURL(b); const a = document.createElement('a'); a.href = url; a.download = 'sahayta_contacts.json'; a.click(); URL.revokeObjectURL(url);
+});
+
+/* Incident description count */
+$('incident-description').addEventListener('input', ()=> $('char-count').textContent = `${$('incident-description').value.length}/500`);
+
+/* Audio recording */
+let mediaRecorder = null; let audioChunks = []; let audioBlob = null;
+$('voice-start').addEventListener('click', async ()=>{
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      const audioEl = $('audio-play'); audioEl.src = URL.createObjectURL(audioBlob); audioEl.classList.remove('hidden');
+      $('audio-status').textContent = 'Recording ready';
+      stream.getTracks().forEach(t=>t.stop());
+    };
+    mediaRecorder.start(); $('voice-start').classList.add('hidden'); $('voice-stop').classList.remove('hidden'); $('audio-status').textContent='Recording...';
+  } catch (e) { console.error(e); alert('Microphone permission required'); }
+});
+$('voice-stop').addEventListener('click', ()=>{ if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop(); $('voice-stop').classList.add('hidden'); $('voice-start').classList.remove('hidden'); });
+
+/* Camera snapshot */
+let cameraStream = null; let snapshotBlob = null;
+$('open-camera').addEventListener('click', async ()=>{
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }});
+    $('camera-preview').srcObject = cameraStream; $('camera-preview').classList.remove('hidden'); $('take-snapshot').classList.remove('hidden'); $('open-camera').classList.add('hidden'); $('camera-status').textContent='Camera ready';
+  } catch (e) { console.error(e); alert('Camera permission required or not available'); }
+});
+$('take-snapshot').addEventListener('click', async ()=>{
+  try {
+    const track = cameraStream.getVideoTracks()[0];
+    if ('ImageCapture' in window) {
+      const ic = new ImageCapture(track);
+      const blob = await ic.takePhoto(); snapshotBlob = blob; $('snapshot-preview').src = URL.createObjectURL(blob); $('snapshot-preview').classList.remove('hidden');
+    } else {
+      const video = $('camera-preview'); const w = video.videoWidth || 640; const h = video.videoHeight || 480; const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h; const ctx = canvas.getContext('2d'); ctx.drawImage(video,0,0,w,h); const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.85)); snapshotBlob = blob; $('snapshot-preview').src = URL.createObjectURL(blob); $('snapshot-preview').classList.remove('hidden');
+    }
+    cameraStream.getTracks().forEach(t=>t.stop()); cameraStream = null; $('camera-preview').classList.add('hidden'); $('take-snapshot').classList.add('hidden'); $('open-camera').classList.remove('hidden'); $('camera-status').textContent='Snapshot taken';
+  } catch (e) { console.error('snapshot error', e); alert('Snapshot failed'); }
+});
+
+/* Service Worker & Notification */
+async function registerSW(){ if ('serviceWorker' in navigator) { try { await navigator.serviceWorker.register('sw.js'); console.log('SW registered'); } catch (e) { console.warn('SW reg failed', e); } } }
+registerSW();
+$('request-notif').addEventListener('click', async ()=>{ if (!('Notification' in window)) return alert('Notifications not supported'); const perm = await Notification.requestPermission(); toast('Notification permission: ' + perm); });
+async function showNotification(title, options={}){ try { if (navigator.serviceWorker && navigator.serviceWorker.ready) { const reg = await navigator.serviceWorker.ready; reg.showNotification(title, options); return; } if (Notification.permission === 'granted') new Notification(title, options); } catch(e){ console.warn('notify fail', e); } }
+
+/* SOS hold + progress */
+let holdInterval = null; let holdTicks = 0; const TICK_MS = 50; const TICKS_NEEDED = Math.ceil(ACTIVATION_MS / TICK_MS);
+function startSOSHold(){ if (holdInterval) return; holdTicks = 0; $('progress-ring').classList.remove('hidden'); holdInterval = setInterval(()=>{ holdTicks++; const prog = Math.min(1, holdTicks / TICKS_NEEDED); const offset = CIRCUMFERENCE - (prog * CIRCUMFERENCE); progressCircle.style.strokeDashoffset = offset; if (prog >= 1){ clearInterval(holdInterval); holdInterval = null; $('confirmModal').classList.remove('hidden'); setTimeout(()=>{ progressCircle.style.strokeDashoffset = CIRCUMFERENCE; $('progress-ring').classList.add('hidden'); },150); } }, TICK_MS); }
+function cancelSOSHold(){ if (holdInterval){ clearInterval(holdInterval); holdInterval = null; progressCircle.style.strokeDashoffset = CIRCUMFERENCE; $('progress-ring').classList.add('hidden'); } }
+
+$('sos-button').addEventListener('pointerdown', (e)=>{ if (e.pointerType==='mouse' && e.button!==0) return; startSOSHold(); e.preventDefault(); });
+['pointerup','pointercancel','pointerleave'].forEach(ev=> $('sos-button').addEventListener(ev, cancelSOSHold));
+$('sos-button').addEventListener('keydown', (e)=>{ if (e.key===' '||e.key==='Enter') startSOSHold(); });
+$('sos-button').addEventListener('keyup', (e)=>{ if (e.key===' '||e.key==='Enter') cancelSOSHold(); });
+
+$('cancel-send').addEventListener('click', ()=> $('confirmModal').classList.add('hidden'));
+$('confirm-send').addEventListener('click', async ()=>{ $('confirmModal').classList.add('hidden'); await sendSOS(); });
+
+/* Prepare payload and send to backend (FormData). On failure, fallback to SMS/WhatsApp */
+function gatherPayload(){
+  const description = $('incident-description').value.trim();
+  const lat = $('auto-location').dataset.lat || '';
+  const lng = $('auto-location').dataset.lng || '';
+  const address = $('auto-address').textContent || '';
+  const included = Array.from(selectedContacts).map(i=>contacts[i]).filter(Boolean);
+  const form = new FormData();
+  form.append('timestamp', new Date().toISOString());
+  form.append('description', description);
+  form.append('latitude', lat);
+  form.append('longitude', lng);
+  form.append('address', address);
+  form.append('contacts', JSON.stringify(included));
+  if (audioBlob) form.append('audio', audioBlob, 'voice.webm');
+  if (snapshotBlob) form.append('image', snapshotBlob, 'snapshot.jpg');
+  return { form, included };
+}
+
+async function sendSOS(){
+  const { form, included } = gatherPayload();
+  toast('Sending SOS...');
+  const API_URL = 'https://your-api-endpoint.com/api/sos'; // <-- Replace with your backend endpoint
+  let ok = false;
+  try {
+    const resp = await fetch(API_URL, { method: 'POST', body: form });
+    if (!resp.ok) throw new Error('Network response not ok: ' + resp.status);
+    const data = await resp.json();
+    console.log('server response', data);
+    ok = true; toast('SOS sent successfully'); await showNotification('Sahayta: SOS sent', { body: 'Your emergency alert was delivered.' });
+  } catch (err) {
+    console.warn('send failed', err);
+    toast('Send failed — fallback triggered'); await showNotification('Sahayta: SOS failed', { body: 'Using SMS/WhatsApp fallback' });
+    triggerFallback(included);
+  } finally {
+    const logs = JSON.parse(localStorage.getItem('sahayta_sos_logs') || '[]');
+    logs.unshift({ ts: new Date().toISOString(), success: ok, contacts: included.map(c=>c.phone) });
+    localStorage.setItem('sahayta_sos_logs', JSON.stringify(logs));
+  }
+}
+
+/* fallback helpers */
+function normalizePhone(p){ if (!p) return p; return p.replace(/[^+\d]/g,''); }
+function triggerFallback(list){
+  const description = $('incident-description').value.trim();
+  const lat = $('auto-location').dataset.lat || '';
+  const lng = $('auto-location').dataset.lng || '';
+  const address = $('auto-address').textContent || '';
+  const parts = [];
+  if (description) parts.push(description);
+  if (address) parts.push(address);
+  if (lat && lng) parts.push(`Location: ${lat},${lng}`);
+  parts.push('Sent via Sahayta SOS');
+  const body = encodeURIComponent(parts.join(' | '));
+  const phones = list.map(c=>normalizePhone(c.phone)).filter(Boolean);
+  if (phones.length){
+    const smsRecips = phones.join(',');
+    const smsUrl = `sms:${smsRecips}?body=${body}`;
+    window.open(smsUrl, '_blank');
+  }
+  if (phones.length){
+    const first = phones[0].replace(/^\+/, '');
+    const wa = `https://wa.me/${first}?text=${body}`;
+    window.open(wa, '_blank');
+  }
+}
+
+/* beforeunload safety */
+window.addEventListener('beforeunload', (e)=>{ if ((mediaRecorder && mediaRecorder.state !== 'inactive') || cameraStream || holdInterval) { e.preventDefault(); e.returnValue = ''; } });
+
+/* expose some things for console debugging */
+window._sahayta = { sendSOS, gatherPayload, contacts };
+
+</script>
+</body>
+</html>

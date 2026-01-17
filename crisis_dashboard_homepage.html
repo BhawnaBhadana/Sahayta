@@ -1,0 +1,488 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crisis Dashboard - Sahayta Crisis Response</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fsahaytacr9564back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background min-h-screen">
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-essential border-b border-surface sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-8 w-8 text-primary-600" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L16 2z"/>
+                            <path d="M14 14h4v4h-4z" fill="white"/>
+                            <path d="M12 10h8v2h-8z" fill="white"/>
+                            <path d="M12 20h8v2h-8z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-xl font-bold text-text-primary">Sahayta</h1>
+                        <p class="text-xs text-text-secondary">Crisis Response</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Menu -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="crisis_dashboard_homepage.html" class="text-primary-600 font-semibold border-b-2 border-primary-600 pb-1">Dashboard</a>
+                    <a href="live_crisis_intelligence_map.html" class="text-text-secondary hover:text-primary-600 transition-colors">Crisis Map</a>
+                    <a href="resource_directory_locator.html" class="text-text-secondary hover:text-primary-600 transition-colors">Resources</a>
+                    <a href="communication_verfication_centre.html" class="text-text-secondary hover:text-primary-600 transition-colors">Community</a>
+                    <a href="emergency_prepared_academy.html" class="text-text-secondary hover:text-primary-600 transition-colors">Preparedness</a>
+                    <a href="sos_emergency_activation.html" class="text-text-secondary hover:text-primary-600 transition-colors">SOS</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button type="button" class="text-text-secondary hover:text-primary-600 focus:outline-none focus:text-primary-600" onclick="toggleMobileMenu()">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-surface">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="crisis_dashboarh_homepage.html" class="block px-3 py-2 text-primary-600 font-semibold bg-primary-50 rounded-md">Dashboard</a>
+                <a href="live_crisis_intelligence_map.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors">Crisis Map</a>
+                <a href="resource_directory_locator.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors">Resources</a>
+                <a href="communication_verfication_centre.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors">Community</a>
+                <a href="sos_emergency_activation.html" class="block px-3 py-2 text-text-secondary hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors">SOS</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Location Banner -->
+        <section class="mb-6">
+            <div class="bg-white rounded-lg shadow-essential border border-surface p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <svg class="h-5 w-5 text-primary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <h2 class="font-semibold text-text-primary">Noida,Uttar Pradesh</h2>
+                            <p class="text-sm text-text-secondary">Last updated: 2 minutes ago</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondary-100 text-secondary-800">
+                            <div class="w-2 h-2 bg-secondary-600 rounded-full mr-2"></div>
+                            Safe
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Threat Assessment Widget -->
+        <section class="mb-8">
+            <div class="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl shadow-essential border border-surface p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-text-primary">Current Threat Level</h2>
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-secondary-600 rounded-full mr-2 animate-pulse"></div>
+                        <span class="text-sm text-text-secondary">Live</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white rounded-lg p-4 border border-surface">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-text-secondary">Weather</p>
+                                <p class="text-lg font-semibold text-secondary-700">Clear</p>
+                            </div>
+                            <div class="w-8 h-8 bg-secondary-100 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 border border-surface">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-text-secondary">Traffic</p>
+                                <p class="text-lg font-semibold text-warning">Moderate</p>
+                            </div>
+                            <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                                    <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-1-1h-3z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 border border-surface">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-text-secondary">Incidents</p>
+                                <p class="text-lg font-semibold text-secondary-700">2 Active</p>
+                            </div>
+                            <div class="w-8 h-8 bg-secondary-100 rounded-full flex items-center justify-center">
+                                <svg class="w-4 h-4 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-4 border border-surface">
+                    <h3 class="font-semibold text-text-primary mb-2">Recommended Actions</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Stay informed about local conditions
+                        </li>
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Review your emergency preparedness plan
+                        </li>
+                        <li class="flex items-center text-sm text-text-secondary">
+                            <svg class="w-4 h-4 text-secondary-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Check on vulnerable neighbors
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Action Cards -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-text-primary mb-6">Emergency Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- SOS Alert Card -->
+                <div class="bg-white rounded-xl shadow-emergency border-2 border-accent-200 p-6 hover:shadow-lg transition-shadow">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-accent-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-text-primary mb-2">SOS Alert</h3>
+                        <p class="text-text-secondary mb-4">Send immediate emergency alert to responders and contacts</p>
+                        <a href="sos_emergency_activation.html" class="btn-emergency w-full inline-block text-center">
+                            Activate SOS
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Find Resources Card -->
+                <div class="bg-white rounded-xl shadow-essential border border-surface p-6 hover:shadow-lg transition-shadow">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-text-primary mb-2">Find Resources</h3>
+                        <p class="text-text-secondary mb-4">Locate nearby shelters, medical facilities, and emergency services</p>
+                        <a href="resource_directory_locator.html" class="btn-primary w-full inline-block text-center">
+                            Find Help
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Report Incident Card -->
+                <div class="bg-white rounded-xl shadow-essential border border-surface p-6 hover:shadow-lg transition-shadow">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-warning" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-text-primary mb-2">Report Incident</h3>
+                        <p class="text-text-secondary mb-4">Share verified information about local conditions and incidents</p>
+                        <a href="community_verification_center.html" class="bg-warning hover:bg-yellow-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors w-full inline-block text-center">
+                            Report Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Access Tiles -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-text-primary mb-6">Quick Access</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="resource_directory_locator.html" class="bg-white rounded-lg shadow-minimal border border-surface p-4 hover:shadow-essential transition-shadow">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium text-text-primary">Shelters</p>
+                    </div>
+                </a>
+
+                <a href="resource_directory_locator.html" class="bg-white rounded-lg shadow-minimal border border-surface p-4 hover:shadow-essential transition-shadow">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-6 h-6 text-accent-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium text-text-primary">Medical</p>
+                    </div>
+                </a>
+
+                <a href="communcation_verfication_centre.html" class="bg-white rounded-lg shadow-minimal border border-surface p-4 hover:shadow-essential transition-shadow">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-6 h-6 text-secondary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium text-text-primary">Volunteers</p>
+                    </div>
+                </a>
+
+                <a href="live_crisis_intelligence_map.html" class="bg-white rounded-lg shadow-minimal border border-surface p-4 hover:shadow-essential transition-shadow">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium text-text-primary">Crisis Map</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Live Activity Feed -->
+        <section class="mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-text-primary">Live Activity Feed</h2>
+                <div class="flex items-center">
+                    <div class="w-2 h-2 bg-secondary-600 rounded-full mr-2 animate-pulse"></div>
+                    <span class="text-sm text-text-secondary">Live updates</span>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Activity Item 1 -->
+                <div class="bg-white rounded-lg shadow-minimal border border-surface p-4">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="User avatar" class="w-10 h-10 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <p class="font-semibold text-text-primary">Rajesh Kumar</p>
+                                <span class="verification-badge">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Verified
+                                </span>
+                                <span class="text-sm text-text-tertiary">5 min ago</span>
+                            </div>
+                            <p class="text-text-secondary mb-2">Road cleared on Western Express Highway near Bandra. Traffic moving normally now.</p>
+                            <div class="flex items-center space-x-4 text-sm text-text-tertiary">
+                                <button class="flex items-center hover:text-primary-600">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
+                                    </svg>
+                                    12 helpful
+                                </button>
+                                <button class="flex items-center hover:text-primary-600">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"/>
+                                    </svg>
+                                    3 comments
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Item 2 -->
+                <div class="bg-white rounded-lg shadow-minimal border border-surface p-4">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?w=40&h=40&fit=crop&crop=face" alt="User avatar" class="w-10 h-10 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <p class="font-semibold text-text-primary">Priya Sharma</p>
+                                <span class="verification-badge">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Verified
+                                </span>
+                                <span class="text-sm text-text-tertiary">12 min ago</span>
+                            </div>
+                            <p class="text-text-secondary mb-2">Community kitchen open at Shivaji Park. Free meals available for those in need. Volunteers welcome!</p>
+                            <div class="flex items-center space-x-4 text-sm text-text-tertiary">
+                                <button class="flex items-center hover:text-primary-600">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/>
+                                    </svg>
+                                    24 helpful
+                                </button>
+                                <button class="flex items-center hover:text-primary-600">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"/>
+                                    </svg>
+                                    7 comments
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Item 3 -->
+                <div class="bg-white rounded-lg shadow-minimal border border-surface p-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <p class="font-semibold text-text-primary">System Alert</p>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                                    Official
+                                </span>
+                                <span class="text-sm text-text-tertiary">18 min ago</span>
+                            </div>
+                            <p class="text-text-secondary mb-2">Weather advisory: Light rain expected in Mumbai region from 3 PM to 6 PM today. No major disruptions anticipated.</p>
+                            <div class="flex items-center space-x-4 text-sm text-text-tertiary">
+                                <span class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    156 views
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-6">
+                <a href="community_verification_center.html" class="text-primary-600 hover:text-primary-700 font-medium">
+                    View all activity →
+                </a>
+            </div>
+        </section>
+
+        <!-- Offline Indicator -->
+        <section class="mb-8">
+            <div class="bg-primary-50 border border-primary-200 rounded-lg p-4">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 text-primary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                    <div>
+                        <p class="font-medium text-primary-800">Offline Mode Available</p>
+                        <p class="text-sm text-primary-700">Core emergency features work without internet connection</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-surface mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-primary-600" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M16 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L16 2z"/>
+                            <path d="M14 14h4v4h-4z" fill="white"/>
+                            <path d="M12 10h8v2h-8z" fill="white"/>
+                            <path d="M12 20h8v2h-8z" fill="white"/>
+                        </svg>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-bold text-text-primary">Sahayta</h3>
+                            <p class="text-sm text-text-secondary">Crisis Response Platform</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4">Empowering communities through verified crisis intelligence and coordinated emergency response.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-4">Emergency</h4>
+                    <ul class="space-y-2">
+                        <li><a href="sos_emergency_activation.html" class="text-text-secondary hover:text-primary-600">SOS Alert</a></li>
+                        <li><a href="resource_directory_locator.html" class="text-text-secondary hover:text-primary-600">Find Resources</a></li>
+                        <li><a href="live_crisis_intelligence_map.html" class="text-text-secondary hover:text-primary-600">Crisis Map</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-text-primary mb-4">Community</h4>
+                    <ul class="space-y-2">
+                        <li><a href="community_verification_center.html" class="text-text-secondary hover:text-primary-600">Verification Center</a></li>
+                        <li><a href="emergency_preparedness_academy.html" class="text-text-secondary hover:text-primary-600">Preparedness</a></li>
+                        <li><a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600">Volunteer</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-surface pt-8 mt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-text-secondary text-sm">© 2025 Sahayta Crisis Response. All Rights Reserved.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Privacy Policy</a>
+                        <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Terms of Service</a>
+                        <a href="javascript:void(0)" class="text-text-secondary hover:text-primary-600 text-sm">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Auto-refresh threat assessment every 2 minutes
+        setInterval(function() {
+            // In a real application, this would fetch updated data
+            console.log('Refreshing threat assessment...');
+        }, 120000);
+
+        // Simulate real-time updates
+        function updateLastRefresh() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            // Update timestamp displays if they exist
+        }
+
+        // Update every minute
+        setInterval(updateLastRefresh, 60000);
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

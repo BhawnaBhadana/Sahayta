@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Live Crisis Intelligence Map - Sahayta Crisis Response</title>
+
+  <!-- Keep your CSS unchanged -->
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/tailwind.css" />
+
+  <!-- Leaflet & plugins CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+  <style>
+    /* Minimal non-invasive UI tweaks */
+    #map { height: 100vh; width: 100%; min-height: 520px; }
+    #sosBtn { position: fixed; bottom: 25px; right: 25px; z-index: 99999; background: var(--color-accent-600); color: white; border: none; padding: 15px 22px; font-size: 20px; border-radius: 50px; cursor: pointer; font-weight:700; box-shadow: var(--shadow-emergency); transition: all .15s; }
+    #sosBtn:hover { transform: translateY(-2px); }
+    .controls { position: absolute; right: 18px; top: 96px; display:flex; flex-direction:column; gap:8px; z-index:1400; }
+    .btn-lite { background: white; border-radius: 10px; padding: 8px 10px; box-shadow: var(--shadow-essential); border:1px solid #e6e6e6; cursor:pointer; font-weight:600; }
+    #adminPanel { position:absolute; left:18px; top:96px; width:340px; max-height: calc(100vh - 120px); overflow-y:auto; background: rgba(255,255,255,0.98); border-radius:10px; padding:12px; z-index:1400; box-shadow: 0 8px 26px rgba(0,0,0,0.12); }
+    .sosItem{ border-bottom:1px solid #eee; padding:8px 0; }
+    .chatBox { position:absolute; right:18px; bottom:18px; width:320px; max-height:420px; background: rgba(255,255,255,0.98); border-radius:10px; box-shadow:0 8px 26px rgba(0,0,0,0.12); overflow:hidden; z-index:1400; display:flex; flex-direction:column; }
+    .chatMessages{ flex:1; padding:10px; overflow-y:auto; font-size:13px; }
+    .chatInput{ display:flex; gap:8px; padding:8px; border-top:1px solid #eee; }
+    .small{ font-size:12px; color:#666; }
+    .leaflet-control-geocoder { border-radius: 8px; }
+    .leaflet-routing-container { border-radius: 12px; box-shadow: var(--shadow-essential); }
+    .leaflet-popup-content { font-family: 'Inter', sans-serif; font-size: 15px; }
+
+    @media (max-width:760px){
+      #adminPanel{ width: calc(100% - 36px); left:18px; right:18px; top:auto; bottom:18px; max-height:40vh; }
+      .controls{ top:auto; bottom:24px; right:18px; flex-direction:row; }
+      .chatBox{ width: calc(100% - 36px); right: 18px; }
+    }
+  </style>
+</head>
+<body class="bg-background min-h-screen">
+
+<!-- HEADER -->
+<header class="bg-white shadow-essential border-b border-surface sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+
+            <!-- Logo -->
+            <div class="flex items-center">
+                <svg class="h-8 w-8 text-primary-600" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M16 2L3 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L16 2z"/>
+                </svg>
+                <div class="ml-3">
+                    <h1 class="text-xl font-bold text-text-primary">Sahayta</h1>
+                    <p class="text-xs text-text-secondary">Crisis Response</p>
+                </div>
+            </div>
+
+            <!-- DESKTOP NAVIGATION -->
+            <nav class="hidden md:flex space-x-8">
+                    <a href="crisis_dashboard_homepage.html" class="text-primary-600 font-semibold border-b-2 border-primary-600 pb-1">Dashboard</a>
+                    <a href="live_crisis_intelligence_map.html" class="text-text-secondary hover:text-primary-600 transition-colors">Crisis Map</a>
+                    <a href="resource_directory_locator.html" class="text-text-secondary hover:text-primary-600 transition-colors">Resources</a>
+                    <a href="communication_verfication_centre.html" class="text-text-secondary hover:text-primary-600 transition-colors">Community</a>
+                    <a href="emergency_prepared_academy.html" class="text-text-secondary hover:text-primary-600 transition-colors">Preparedness</a>
+                    <a href="sos_emergency_activation.html" class="text-text-secondary hover:text-primary-600 transition-colors">SOS</a>
+                </nav>
+
+            <!-- MOBILE MENU BUTTON -->
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="text-text-secondary hover:text-primary-600">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-surface">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a href="crisis_dashboard_homepage.html" class="block px-3 py-2">Dashboard</a>
+            <a href="live_crisis_intelligence_map.html" class="block px-3 py-2">Crisis Map</a>
+            <a href="resource_directory_locator.html" class="block px-3 py-2">Resources</a>
+            <a href="communication_verification_centre.html" class="block px-3 py-2">Community</a>
+            <a href="sos_emergency_activation.html" class="block px-3 py-2">SOS</a>
+        </div>
+    </div>
+</header>
+
+<script>
+function toggleMobileMenu() {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+}
+</script>
+
+  </header>
+
+  <!-- Main layout -->
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-80 bg-white shadow-essential border-r border-surface overflow-y-auto">
+      <div class="p-6">
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-bold text-text-primary">Crisis Intelligence Map</h2>
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-secondary-600 rounded-full mr-2 animate-pulse"></div>
+              <span class="text-sm text-text-secondary">Live</span>
+            </div>
+          </div>
+          <div class="flex items-center text-text-secondary">
+            <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            <span id="sidebar-location">India (pan)</span>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <div class="grid grid-cols-2 gap-3">
+            <button id="sidebar-sos-quick" class="btn-emergency text-center text-sm py-2 px-3">SOS Alert</button>
+            <button id="sidebar-locate" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-3 rounded-lg transition-colors text-sm">Locate Me</button>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold text-text-primary mb-4">Map Layers</h3>
+          <div class="space-y-3">
+            <label class="flex items-center">
+              <input id="chk-shelters" type="checkbox" checked class="mr-3 rounded text-primary-600 focus:ring-primary-500" onchange="toggleLayer('shelters')" />
+              <div class="flex items-center"><div class="w-3 h-3 bg-secondary-600 rounded-full mr-2"></div><span class="text-text-primary">Shelters</span></div>
+            </label>
+            <label class="flex items-center">
+              <input id="chk-medical" type="checkbox" checked class="mr-3 rounded text-primary-600 focus:ring-primary-500" onchange="toggleLayer('medical')" />
+              <div class="flex items-center"><div class="w-3 h-3 bg-accent-600 rounded-full mr-2"></div><span class="text-text-primary">Medical</span></div>
+            </label>
+            <label class="flex items-center">
+              <input id="chk-food" type="checkbox" checked class="mr-3 rounded text-primary-600 focus:ring-primary-500" onchange="toggleLayer('food')" />
+              <div class="flex items-center"><div class="w-3 h-3 bg-warning rounded-full mr-2"></div><span class="text-text-primary">Food Distribution</span></div>
+            </label>
+            <label class="flex items-center">
+              <input id="chk-hazards" type="checkbox" checked class="mr-3 rounded text-primary-600 focus:ring-primary-500" onchange="toggleLayer('hazards')" />
+              <div class="flex items-center"><div class="w-3 h-3 bg-accent-600 rounded-full mr-2"></div><span class="text-text-primary">Hazard Zones</span></div>
+            </label>
+            <label class="flex items-center">
+              <input id="chk-volunteers" type="checkbox" class="mr-3 rounded text-primary-600 focus:ring-primary-500" onchange="toggleLayer('volunteers')" />
+              <div class="flex items-center"><div class="w-3 h-3 bg-primary-600 rounded-full mr-2"></div><span class="text-text-primary">Volunteer Activities</span></div>
+            </label>
+            <label class="flex items-center">
+              <input id="chk-routes" type="checkbox" class="mr-3 rounded text-primary-600 focus:ring-primary-500" onchange="toggleLayer('routes')" />
+              <div class="flex items-center"><div class="w-3 h-3 bg-secondary-400 rounded-full mr-2"></div><span class="text-text-primary">Safe Routes</span></div>
+            </label>
+          </div>
+        </div>
+        <!-- trust, updates, offline status unchanged (continued in part 3) -->
+      </div>
+    </aside>
+
+    <main class="flex-1 relative">
+      <div id="crisis-map" class="w-full h-full relative overflow-hidden">
+        <div id="map" class="w-full h-full"></div>
+      </div>
+
+      <div class="absolute bottom-4 left-4 bg-white shadow-essential border border-surface rounded-lg p-4 z-1400">
+        <h4 class="font-semibold text-text-primary mb-3 text-sm">Map Legend</h4>
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center"><div class="w-3 h-3 bg-secondary-600 rounded-full mr-2"></div><span class="text-text-secondary">Shelters</span></div>
+          <div class="flex items-center"><div class="w-3 h-3 bg-accent-600 rounded-full mr-2"></div><span class="text-text-secondary">Medical Facilities</span></div>
+          <div class="flex items-center"><div class="w-3 h-3 bg-warning rounded-full mr-2"></div><span class="text-text-secondary">Food Distribution</span></div>
+          <div class="flex items-center"><div class="w-3 h-3 bg-primary-600 rounded-full mr-2"></div><span class="text-text-secondary">Volunteers</span></div>
+          <div class="flex items-center"><div class="w-4 h-1 bg-secondary-600 mr-2"></div><span class="text-text-secondary">Safe Routes</span></div>
+        </div>
+      </div>
+
+      <button id="sosBtn" title="Send SOS">🚨 SOS</button>
+
+      <div id="adminPanel">
+        <h3>Admin Panel — SOS & Controls</h3>
+        <div id="authSection">
+          <div id="authUI">
+            <div style="margin-bottom:8px;">
+              <input id="adminEmail" placeholder="admin@example.com" style="width:100%; padding:8px; margin-bottom:6px;" />
+              <input id="adminPass" placeholder="password" type="password" style="width:100%; padding:8px; margin-bottom:6px;" />
+              <div style="display:flex; gap:8px;">
+                <button id="adminLogin" class="btn-lite">Sign In</button>
+                <button id="adminSignup" class="btn-lite">Sign Up</button>
+                <button id="adminAnon" class="btn-lite">Continue as Guest</button>
+              </div>
+            </div>
+          </div>
+          <div id="adminInfo" style="display:none;">
+            <div class="small">Signed in as <b id="adminEmailLabel"></b></div>
+            <div style="margin-top:6px; display:flex; gap:8px;">
+              <button id="adminSignOut" class="btn-lite">Sign Out</button>
+              <button id="centerAllBtn" class="btn-lite">Center All</button>
+            </div>
+          </div>
+        </div>
+
+        <hr style="margin:10px 0;">
+        <div id="sosList"><div class="small">No SOS yet — incoming alerts appear here.</div></div>
+        <div style="margin-top:10px;">
+          <button id="clearSosBtn" class="btn-lite">Clear List (local)</button>
+          <button id="exportSosBtn" class="btn-lite">Export SOS (console)</button>
+        </div>
+      </div>
+
+      <div id="chatContainer" class="chatBox" style="display:block;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; border-bottom:1px solid #eee;">
+          <div style="font-weight:700">Live Chat</div>
+          <div style="display:flex; gap:8px;"><button id="closeChat" class="btn-lite" style="padding:6px 8px;">Close</button></div>
+        </div>
+        <div id="chatMessages" class="chatMessages"></div>
+        <div class="chatInput">
+          <input id="chatMessageInput" style="flex:1; padding:8px;" placeholder="Type message..." />
+          <button id="sendChatBtn" class="btn-lite" style="background:var(--color-secondary-600); color:white;">Send</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
+
+  <!-- Firebase compat (optional placeholders) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
+  <script>
+  /******************************
+   * FIREBASE - replace values to enable realtime features (optional)
+   ******************************/
+  const firebaseConfig = {
+    apiKey: "REPLACE_WITH_YOUR_API_KEY",
+    authDomain: "REPLACE_WITH_AUTH_DOMAIN",
+    databaseURL: "https://REPLACE_WITH_DB_NAME.firebaseio.com",
+    projectId: "REPLACE_WITH_PROJECT_ID",
+    storageBucket: "REPLACE_WITH_STORAGE_BUCKET",
+    messagingSenderId: "REPLACE_WITH_MSG_SENDER_ID",
+    appId: "REPLACE_WITH_APP_ID"
+  };
+  try { firebase.initializeApp(firebaseConfig); } catch(e) { console.warn('Firebase init skipped or placeholder', e); }
+  const db = (firebase.database) ? firebase.database() : null;
+  const auth = (firebase.auth) ? firebase.auth() : null;
+
+  /******************************
+   * MAP INIT
+   ******************************/
+  const defaultCenter = [22.5726, 88.3639]; // default India center (Kolkata-ish)
+  const map = L.map('map', { preferCanvas: true }).setView(defaultCenter, 5);
+
+  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' });
+  const cartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB' });
+  osm.addTo(map); let darkMode = false;
+
+  L.Control.geocoder({ defaultMarkGeocode: false }).on('markgeocode', e => {
+    const c = e.geocode.center;
+    L.marker(c).addTo(map).bindPopup(e.geocode.name || 'Search').openPopup();
+    map.setView(c, 14);
+  }).addTo(map);
+
+  // icons
+  const icons = {
+    Hospital: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/2967/2967350.png', iconSize:[36,36], iconAnchor:[18,36], popupAnchor:[0,-30] }),
+    Police: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/3076/3076400.png', iconSize:[36,36], iconAnchor:[18,36], popupAnchor:[0,-30] }),
+    NGO: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/4320/4320337.png', iconSize:[34,34], iconAnchor:[17,34], popupAnchor:[0,-28] }),
+    Volunteer: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/2121/2121613.png', iconSize:[34,34], iconAnchor:[17,34], popupAnchor:[0,-28] }),
+    Shelter: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/1946/1946488.png', iconSize:[34,34], iconAnchor:[17,34], popupAnchor:[0,-28] }),
+    Food: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png', iconSize:[34,34], iconAnchor:[17,34], popupAnchor:[0,-28] }),
+    User: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/149/149071.png', iconSize:[28,28], iconAnchor:[14,28], popupAnchor:[0,-22] }),
+    SOS: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/565/565547.png', iconSize:[44,44], iconAnchor:[22,44], popupAnchor:[0,-30] })
+  };
+
+  // SMALL dataset (~50 locations) across India — realistic nearby-ish entries
+  // Each entry: id, name, type (Shelter/Hospital/Police/NGO/Food/Volunteer/Hazard), lat, lng, city
+  const ALL_RESOURCES = [
+    // Mumbai cluster
+    {id:'m_s1',name:'Shivaji Park Shelter',type:'Shelter',coords:[19.0176,72.8419],city:'Mumbai'},
+    {id:'m_h1',name:'KEM Hospital',type:'Hospital',coords:[19.0527,72.8408],city:'Mumbai'},
+    {id:'m_p1',name:'Dadar Police Station',type:'Police',coords:[19.0182,72.8496],city:'Mumbai'},
+    {id:'m_ng1',name:'Dadar Helping Hands',type:'NGO',coords:[19.0170,72.8440],city:'Mumbai'},
+    {id:'m_food1',name:'Dadar Food Point',type:'Food',coords:[19.0180,72.8445],city:'Mumbai'},
+
+    // Delhi cluster
+    {id:'d_s1',name:'Geeta Colony Shelter',type:'Shelter',coords:[28.6450,77.2623],city:'Delhi'},
+    {id:'d_h1',name:'AIIMS',type:'Hospital',coords:[28.5672,77.2100],city:'Delhi'},
+    {id:'d_p1',name:'New Delhi Police',type:'Police',coords:[28.6129,77.2295],city:'Delhi'},
+    {id:'d_ng1',name:'Delhi Relief NGO',type:'NGO',coords:[28.6500,77.2300],city:'Delhi'},
+    {id:'d_food1',name:'Jama Masjid Food Point',type:'Food',coords:[28.6503,77.2334],city:'Delhi'},
+
+    // Kolkata cluster
+    {id:'k_s1',name:'Ballygunge Shelter',type:'Shelter',coords:[22.5289,88.3630],city:'Kolkata'},
+    {id:'k_h1',name:'S.S.K.M Hospital',type:'Hospital',coords:[22.5235,88.3526],city:'Kolkata'},
+    {id:'k_p1',name:'Kolkata Police',type:'Police',coords:[22.5726,88.3639],city:'Kolkata'},
+    {id:'k_ng1',name:'Kolkata Food Bank',type:'NGO',coords:[22.5410,88.3570],city:'Kolkata'},
+    {id:'k_food1',name:'Howrah Food Point',type:'Food',coords:[22.5950,88.3100],city:'Kolkata'},
+
+    // Chennai cluster
+    {id:'c_s1',name:'Besant Nagar Shelter',type:'Shelter',coords:[13.0123,80.2680],city:'Chennai'},
+    {id:'c_h1',name:'CMC Hospital',type:'Hospital',coords:[13.0520,80.2480],city:'Chennai'},
+    {id:'c_p1',name:'Chennai Police',type:'Police',coords:[13.0827,80.2707],city:'Chennai'},
+    {id:'c_ng1',name:'Chennai Relief',type:'NGO',coords:[13.0300,80.2500],city:'Chennai'},
+    {id:'c_food1',name:'Marina Food Point',type:'Food',coords:[13.0488,80.2820],city:'Chennai'},
+
+    // Bengaluru cluster
+    {id:'b_s1',name:'Cubbon Park Shelter',type:'Shelter',coords:[12.9762,77.5929],city:'Bengaluru'},
+    {id:'b_h1',name:'Bangalore General Hospital',type:'Hospital',coords:[12.9719,77.6412],city:'Bengaluru'},
+    {id:'b_p1',name:'Bengaluru Police',type:'Police',coords:[12.9716,77.5946],city:'Bengaluru'},
+    {id:'b_ng1',name:'Bengaluru Food NGO',type:'NGO',coords:[12.9750,77.6000],city:'Bengaluru'},
+    {id:'b_food1',name:'Majestic Food Point',type:'Food',coords:[12.9764,77.5915],city:'Bengaluru'},
+
+    // Hyderabad cluster
+    {id:'h_s1',name:'Tank Bund Shelter',type:'Shelter',coords:[17.4014,78.4744],city:'Hyderabad'},
+    {id:'h_h1',name:'Osmania Hospital',type:'Hospital',coords:[17.3753,78.4884],city:'Hyderabad'},
+    {id:'h_p1',name:'Hyderabad Police',type:'Police',coords:[17.3850,78.4867],city:'Hyderabad'},
+    {id:'h_ng1',name:'Hyderabad Relief NGO',type:'NGO',coords:[17.4000,78.4800],city:'Hyderabad'},
+    {id:'h_food1',name:'Charminar Food Point',type:'Food',coords:[17.3616,78.4747],city:'Hyderabad'},
+
+    // Pune cluster
+    {id:'p_s1',name:'Shivajinagar Shelter',type:'Shelter',coords:[18.5204,73.8567],city:'Pune'},
+    {id:'p_h1',name:'Pune Hospital',type:'Hospital',coords:[18.5167,73.8560],city:'Pune'},
+    {id:'p_p1',name:'Pune Police',type:'Police',coords:[18.5196,73.8553],city:'Pune'},
+    {id:'p_ng1',name:'Pune Food NGO',type:'NGO',coords:[18.5200,73.8580],city:'Pune'},
+    {id:'p_food1',name:'Pune Food Point',type:'Food',coords:[18.5250,73.8550],city:'Pune'},
+
+    // Lucknow cluster
+    {id:'l_s1',name:'Hazratganj Shelter',type:'Shelter',coords:[26.8467,80.9462],city:'Lucknow'},
+    {id:'l_h1',name:'King George Hospital',type:'Hospital',coords:[26.8469,80.9495],city:'Lucknow'},
+    {id:'l_p1',name:'Lucknow Police',type:'Police',coords:[26.8467,80.9462],city:'Lucknow'},
+    {id:'l_ng1',name:'Lucknow Relief',type:'NGO',coords:[26.8500,80.9400],city:'Lucknow'},
+    {id:'l_food1',name:'Local Food Point',type:'Food',coords:[26.8470,80.9490],city:'Lucknow'},
+
+    // Smaller cities / towns
+    {id:'ld_s1',name:'Ludhiana Community Shelter',type:'Shelter',coords:[30.9010,75.8573],city:'Ludhiana'},
+    {id:'ld_h1',name:'Civil Hospital Ludhiana',type:'Hospital',coords:[30.9040,75.8570],city:'Ludhiana'},
+    {id:'as_s1',name:'Guwahati Relief Shelter',type:'Shelter',coords:[26.1445,91.7362],city:'Guwahati'},
+    {id:'as_h1',name:'Guwahati Hospital',type:'Hospital',coords:[26.1440,91.7360],city:'Guwahati'},
+    {id:'tr_s1',name:'Trivandrum Shelter',type:'Shelter',coords:[8.5241,76.9366],city:'Thiruvananthapuram'},
+    {id:'tr_h1',name:'Trivandrum Hospital',type:'Hospital',coords:[8.4890,76.9470],city:'Thiruvananthapuram'},
+
+    // Some volunteer / hazard markers
+    {id:'vol1',name:'Community Kitchen A',type:'Volunteer',coords:[19.0178,72.8420],city:'Mumbai'},
+    {id:'vol2',name:'Volunteer Centre B',type:'Volunteer',coords:[28.6500,77.2300],city:'Delhi'},
+    {id:'hz1',name:'Flood-prone Zone (Alert)',type:'Hazard',coords:[22.5726,88.3639],city:'Kolkata'},
+    {id:'hz2',name:'Landslide-prone Zone',type:'Hazard',coords:[13.0827,80.2707],city:'Chennai'},
+
+    // A few extras to reach ~50
+    {id:'m_s2',name:'Bandra Community Shelter',type:'Shelter',coords:[19.0544,72.8406],city:'Mumbai'},
+    {id:'d_s2',name:'Seelampur Shelter',type:'Shelter',coords:[28.6550,77.2450],city:'Delhi'},
+    {id:'k_s2',name:'Salt Lake Shelter',type:'Shelter',coords:[22.5720,88.4440],city:'Kolkata'},
+    {id:'b_s2',name:'Yelahanka Shelter',type:'Shelter',coords:[13.0960,77.5946],city:'Bengaluru'},
+    {id:'h_s2',name:'Secunderabad Shelter',type:'Shelter',coords:[17.4399,78.4983],city:'Hyderabad'},
+    {id:'p_s2',name:'Wakad Shelter',type:'Shelter',coords:[18.5970,73.7620],city:'Pune'},
+    {id:'ld_ng1',name:'Ludhiana Food Bank',type:'NGO',coords:[30.9020,75.8590],city:'Ludhiana'},
+    {id:'ld_food1',name:'Ludhiana Food Point',type:'Food',coords:[30.9030,75.8580],city:'Ludhiana'},
+    {id:'gur_s1',name:'Gurugram Shelter',type:'Shelter',coords:[28.4595,77.0266],city:'Gurugram'},
+    {id:'aj_h1',name:'Ajmer Hospital',type:'Hospital',coords:[26.4499,74.6399],city:'Ajmer'}
+  ];
+
+  // minimal caching structures
+  let displayedResourceIds = new Set();
+  const resourceMarkers = {}; const sosMarkers = {}; const volunteerMarkers = {};
+  /******************************
+   * LAYER GROUPS — single source of truth
+   ******************************/
+  const layerGroups = {
+    shelters: L.layerGroup(),
+    medical: L.layerGroup(),
+    food: L.layerGroup(),
+    hazards: L.layerGroup(),
+    volunteers: L.layerGroup(),
+    routes: L.layerGroup()
+  };
+
+  // mapping resource types to icons & groups
+  const typeToGroup = {
+    'Shelter': 'shelters',
+    'Hospital': 'medical',
+    'Police': 'medical',
+    'NGO': 'food',
+    'Food': 'food',
+    'Volunteer': 'volunteers',
+    'Hazard': 'hazards'
+  };
+
+  const typeToIcon = {
+    'Shelter': icons.Shelter,
+    'Hospital': icons.Hospital,
+    'Police': icons.Police,
+    'NGO': icons.NGO,
+    'Food': icons.Food,
+    'Volunteer': icons.Volunteer,
+    'Hazard': icons.SOS // hazard uses SOS-like icon for visibility
+  };
+
+  // heat layer maintained for visible markers
+  const heatLayer = L.heatLayer([], { radius: 30, blur: 20 }).addTo(map);
+
+  // Ensure default layers visible
+  layerGroups.shelters.addTo(map);
+  layerGroups.medical.addTo(map);
+  layerGroups.food.addTo(map);
+
+  // global toggle function (single definitive one)
+  window.toggleLayer = function(type) {
+    if (!layerGroups[type]) { console.error("Layer not found:", type); return; }
+    if (map.hasLayer(layerGroups[type])) map.removeLayer(layerGroups[type]);
+    else map.addLayer(layerGroups[type]);
+  };
+
+  /******************************
+   * LOAD resources inside bounds
+   ******************************/
+  function loadResourcesInBounds() {
+    const bounds = map.getBounds();
+    const padding = 0.05; // small padding factor to include near-bound points
+    const extendedBounds = L.latLngBounds(
+      [bounds.getSouth() - padding, bounds.getWest() - padding],
+      [bounds.getNorth() + padding, bounds.getEast() + padding]
+    );
+
+    // Remove markers that have moved outside extended bounds
+    for (const id of Array.from(displayedResourceIds)) {
+      const meta = resourceMarkers[id] && resourceMarkers[id].meta;
+      if (!meta) { displayedResourceIds.delete(id); continue; }
+      if (!extendedBounds.contains(L.latLng(meta.coords[0], meta.coords[1]))) {
+        // remove from map & layer
+        const markerObj = resourceMarkers[id];
+        try { if (markerObj && markerObj.marker) layerGroups[typeToGroup[markerObj.meta.type]].removeLayer(markerObj.marker); } catch(e){}
+        if (markerObj && markerObj.marker && map.hasLayer(markerObj.marker)) map.removeLayer(markerObj.marker);
+        delete resourceMarkers[id];
+        displayedResourceIds.delete(id);
+      }
+    }
+
+    // Add new resources that fall in bounds
+    ALL_RESOURCES.forEach(r => {
+      const latlng = L.latLng(r.coords[0], r.coords[1]);
+      if (!extendedBounds.contains(latlng)) return;
+      if (displayedResourceIds.has(r.id)) return; // already displayed
+
+      const groupKey = typeToGroup[r.type] || 'shelters';
+      const icon = typeToIcon[r.type] || icons.User;
+      const marker = L.marker(r.coords, { icon })
+        .bindPopup(`<strong>${r.name}</strong><br>${r.type} — ${r.city}`);
+
+      // save and add to layer
+      resourceMarkers[r.id] = { marker, meta: r };
+      layerGroups[groupKey].addLayer(marker);
+      displayedResourceIds.add(r.id);
+
+      // add to heat
+      heatLayer.addLatLng([r.coords[0], r.coords[1], 0.5]);
+    });
+  }
+
+  // load on initial map ready + when map moves/zooms (debounced)
+  map.whenReady(loadResourcesInBounds);
+  let loadTimeout = null;
+  map.on('moveend zoomend', () => { if (loadTimeout) clearTimeout(loadTimeout); loadTimeout = setTimeout(loadResourcesInBounds, 350); });
+
+  /******************************
+   * Locate / Watch
+   ******************************/
+  let userMarker = null, userLatLng = null, geoWatchId = null;
+  function locateMeSidebar() {
+    if (!navigator.geolocation) { alert("Location not supported"); return; }
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const lat = pos.coords.latitude, lng = pos.coords.longitude;
+      userLatLng = [lat, lng];
+      if (!userMarker) userMarker = L.marker(userLatLng, { icon: icons.User }).addTo(map).bindPopup("You are here").openPopup();
+      else userMarker.setLatLng(userLatLng);
+      map.setView(userLatLng, 14);
+      document.getElementById("sidebar-location").textContent = lat.toFixed(5) + ", " + lng.toFixed(5);
+    }, () => alert("Please allow location access"), { enableHighAccuracy: true, timeout:10000 });
+  }
+  document.getElementById('sidebar-locate').addEventListener('click', locateMeSidebar);
+
+  function toggleLocateWatch() {
+    if (geoWatchId) {
+      navigator.geolocation.clearWatch(geoWatchId); geoWatchId = null;
+      if (userMarker) { map.removeLayer(userMarker); userMarker = null; }
+      userLatLng = null; document.getElementById('sidebar-location').textContent = 'Location disabled';
+      return;
+    }
+    if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
+    geoWatchId = navigator.geolocation.watchPosition(pos => {
+      userLatLng = [pos.coords.latitude, pos.coords.longitude];
+      document.getElementById('sidebar-location').textContent = `${userLatLng[0].toFixed(5)}, ${userLatLng[1].toFixed(5)}`;
+      if (!userMarker) userMarker = L.marker(userLatLng, { icon: icons.User }).addTo(map).bindPopup('You are here').openPopup();
+      else userMarker.setLatLng(userLatLng);
+    }, err => { console.error(err); alert('Failed to get location. Allow permissions.'); }, { enableHighAccuracy:true, maximumAge:5000, timeout:10000});
+  }
+
+  /******************************
+   * Nearest finder (uses currently loaded resources)
+   ******************************/
+  function haversineDistance(aLat, aLng, bLat, bLng) {
+    const toRad = x => x * Math.PI / 180;
+    const R = 6371e3;
+    const φ1 = toRad(aLat), φ2 = toRad(bLat);
+    const Δφ = toRad(bLat - aLat), Δλ = toRad(bLng - aLng);
+    const aa = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+    const c = 2 * Math.atan2(Math.sqrt(aa), Math.sqrt(1-aa));
+    return R * c;
+  }
+
+  let routingControl = null;
+  function findNearest(type) {
+    if (!userLatLng) { alert('Enable location (Locate Me) first.'); return; }
+    // search among displayedResourceIds (local)
+    const candidates = [];
+    displayedResourceIds.forEach(id => { const meta = resourceMarkers[id] && resourceMarkers[id].meta; if (meta && meta.type.toLowerCase() === type.toLowerCase()) candidates.push(meta); });
+    if (!candidates.length) {
+      // fallback: search entire dataset
+      ALL_RESOURCES.forEach(r => { if (r.type.toLowerCase() === type.toLowerCase()) candidates.push(r); });
+    }
+    if (!candidates.length) { alert('No resources of that type found in area.'); return; }
+    let nearest = null, minD = Infinity;
+    candidates.forEach(c => {
+      const d = haversineDistance(userLatLng[0], userLatLng[1], c.coords[0], c.coords[1]);
+      if (d < minD) { minD = d; nearest = c; }
+    });
+    if (nearest) {
+      alert(`Nearest ${type}: ${nearest.name} — ${(minD/1000).toFixed(2)} km`);
+      map.setView(nearest.coords, 14);
+      if (routingControl) map.removeControl(routingControl);
+      routingControl = L.Routing.control({ waypoints:[ L.latLng(userLatLng[0],userLatLng[1]), L.latLng(nearest.coords[0],nearest.coords[1]) ], routeWhileDragging:false, addWaypoints:false }).addTo(map);
+    }
+  }
+
+  /******************************
+   * SOS (local + optional Firebase)
+   ******************************/
+  async function pushSosToDb(lat, lng, message='SOS via Sahayta') {
+    if (!db) { console.warn('DB not configured - SOS not sent to backend'); return; }
+    try {
+      const ref = db.ref('sos').push();
+      const payload = { lat, lng, message, timestamp: Date.now(), status:'new' };
+      await ref.set(payload);
+    } catch (e) { console.error(e); alert('SOS DB failed'); }
+  }
+
+  function addSosMarker(key, data) {
+    if (!data || !data.lat || !data.lng) return;
+    const m = L.marker([data.lat, data.lng], { icon: icons.SOS }).addTo(map).bindPopup(`<strong>SOS</strong><br>${new Date(data.timestamp).toLocaleString()}<br>${data.message || ''}`);
+    sosMarkers[key] = m;
+    heatLayer.addLatLng([data.lat, data.lng, 1]);
+  }
+
+  function addSosToPanel(key, data) {
+    const list = document.getElementById('sosList');
+    if (list.children.length === 1 && list.children[0].classList && list.children[0].classList.contains('small')) list.innerHTML = '';
+    const div = document.createElement('div'); div.className = 'sosItem'; div.id = 'sos_'+key;
+    div.innerHTML = `
+      <div style="display:flex; justify-content:space-between;">
+        <div>
+          <div style="font-weight:700">SOS — ${new Date(data.timestamp).toLocaleString()}</div>
+          <div class="small">Lat: ${data.lat.toFixed(5)}, Lng: ${data.lng.toFixed(5)}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <button data-key="${key}" class="btn-lite">Center</button>
+          <button data-key="${key}" class="btn-lite">Resolve</button>
+        </div>
+      </div>`;
+    list.prepend(div);
+    div.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const act = e.target.textContent.trim(); const k = e.target.getAttribute('data-key');
+        if (act === 'Center') { if (db) db.ref('sos/' + k).once('value').then(snap=>{ const v=snap.val(); if (v && v.lat && v.lng){ map.setView([v.lat,v.lng],16); if (sosMarkers[k]) sosMarkers[k].openPopup(); } }); }
+        else if (act === 'Resolve') { if (db) db.ref('sos/' + k + '/status').set('resolved'); if (sosMarkers[k]) { map.removeLayer(sosMarkers[k]); delete sosMarkers[k]; } const el=document.getElementById('sos_'+k); if (el) el.remove(); }
+      });
+    });
+  }
+
+  function initSosListener() {
+    if (!db) return;
+    const sosRef = db.ref('sos');
+    sosRef.on('child_added', snapshot => { const key = snapshot.key, val = snapshot.val(); if (!val) return; addSosToPanel(key,val); addSosMarker(key,val); });
+  }
+
+  document.getElementById('sosBtn').addEventListener('click', () => {
+    if (!navigator.geolocation) { alert('Enable location'); return; }
+    navigator.geolocation.getCurrentPosition(pos => {
+      const lat = pos.coords.latitude, lng = pos.coords.longitude;
+      L.marker([lat,lng], { icon: icons.SOS }).addTo(map).bindPopup('🚨 SOS Sent').openPopup();
+      heatLayer.addLatLng([lat,lng,1]);
+      pushSosToDb(lat, lng);
+      // auto-route to nearest resource
+      let nearest=null, minD=Infinity;
+      ALL_RESOURCES.forEach(r => { const d = haversineDistance(lat,lng,r.coords[0],r.coords[1]); if (d<minD){ minD=d; nearest=r; } });
+      if (nearest) {
+        if (routingControl) map.removeControl(routingControl);
+        routingControl = L.Routing.control({ waypoints:[ L.latLng(lat,lng), L.latLng(nearest.coords[0],nearest.coords[1]) ], routeWhileDragging:false, addWaypoints:false }).addTo(map);
+        alert(`SOS sent. Nearest: ${nearest.name} (${nearest.type}) — ${(minD/1000).toFixed(2)} km`);
+      } else alert('SOS sent — no local resource in sample data.');
+    }, e => { alert('Enable location'); }, { enableHighAccuracy:true, timeout:10000 });
+  });
+
+  document.getElementById('sidebar-sos-quick').addEventListener('click', () => document.getElementById('sosBtn').click());
+  /******************************
+   * Authentication & Chat (simple)
+   ******************************/
+  const adminEmailInput = document.getElementById('adminEmail');
+  const adminPassInput = document.getElementById('adminPass');
+  const adminLoginBtn = document.getElementById('adminLogin');
+  const adminSignupBtn = document.getElementById('adminSignup');
+  const adminAnonBtn = document.getElementById('adminAnon');
+  const adminSignOutBtn = document.getElementById('adminSignOut');
+  const adminInfoEl = document.getElementById('adminInfo');
+  const adminUIEl = document.getElementById('authUI');
+  const adminEmailLabel = document.getElementById('adminEmailLabel');
+
+  if (auth) {
+    adminSignupBtn.addEventListener('click', () => {
+      const email = adminEmailInput.value.trim(), pass = adminPassInput.value;
+      if (!email || !pass) return alert('Enter email & password');
+      auth.createUserWithEmailAndPassword(email, pass).then(res => setupAfterAuth(res.user)).catch(err=>alert('Signup error: '+err.message));
+    });
+    adminLoginBtn.addEventListener('click', () => {
+      const email = adminEmailInput.value.trim(), pass = adminPassInput.value;
+      if (!email || !pass) return alert('Enter email & password');
+      auth.signInWithEmailAndPassword(email, pass).then(res=>setupAfterAuth(res.user)).catch(err=>alert('Login error: '+err.message));
+    });
+    adminAnonBtn.addEventListener('click', () => { auth.signInAnonymously().then(res=>setupAfterAuth(res.user)).catch(err=>alert('Anon error:'+err.message)); });
+    adminSignOutBtn.addEventListener('click', () => { auth.signOut().then(()=>{ document.getElementById('authUI').style.display='block'; adminInfoEl.style.display='none'; }); });
+
+    function setupAfterAuth(user){
+      document.getElementById('authUI').style.display='none';
+      adminInfoEl.style.display='block';
+      adminEmailLabel.textContent = user.email || 'Guest';
+      initSosListener();
+      initChatListener();
+      initVolunteerListener();
+    }
+  } else {
+    document.getElementById('authUI').style.display = 'block';
+  }
+
+  // Chat
+  const chatContainer = document.getElementById('chatContainer');
+  const chatMessagesEl = document.getElementById('chatMessages');
+  const chatInputEl = document.getElementById('chatMessageInput');
+  const sendChatBtn = document.getElementById('sendChatBtn');
+  const closeChatBtn = document.getElementById('closeChat');
+
+  function sendChatMessage() {
+    const text = chatInputEl.value.trim(); if (!text) return;
+    const payload = { text, ts: Date.now(), from: (auth && auth.currentUser && auth.currentUser.email) ? auth.currentUser.email : 'guest' };
+    if (db) db.ref('chat').push(payload).then(()=> chatInputEl.value='').catch(e=>console.error(e));
+    else {
+      const div = document.createElement('div'); div.style.marginBottom='8px';
+      div.innerHTML = `<div style="font-weight:700">local</div><div>${text}</div><div class="small">${new Date().toLocaleString()}</div>`;
+      chatMessagesEl.appendChild(div); chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight; chatInputEl.value='';
+    }
+  }
+  sendChatBtn.addEventListener('click', sendChatMessage);
+  chatInputEl.addEventListener('keydown', e=>{ if (e.key === 'Enter') sendChatMessage(); });
+  closeChatBtn.addEventListener('click', ()=> chatContainer.style.display='none');
+
+  function initChatListener() {
+    if (!db) return;
+    const chatRef = db.ref('chat').limitToLast(100);
+    chatRef.on('child_added', snap => {
+      const v = snap.val(); const div = document.createElement('div'); div.style.marginBottom='8px';
+      div.innerHTML = `<div style="font-weight:700">${v.from}</div><div>${v.text}</div><div class="small">${new Date(v.ts).toLocaleString()}</div>`;
+      chatMessagesEl.appendChild(div); chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+    });
+  }
+
+  /******************************
+   * Volunteer listener
+   ******************************/
+  function initVolunteerListener(){
+    if (!db) return;
+    const ref = db.ref('volunteers');
+    ref.on('child_added', snap => { const uid = snap.key, v = snap.val(); if (!v) return; const m = L.marker([v.lat, v.lng], { icon: icons.Volunteer }).addTo(map).bindPopup(`Volunteer: ${uid}`); volunteerMarkers[uid] = m; });
+    ref.on('child_changed', snap => { const uid=snap.key, v=snap.val(); if (volunteerMarkers[uid]) volunteerMarkers[uid].setLatLng([v.lat,v.lng]); });
+    ref.on('child_removed', snap => { const uid=snap.key; if (volunteerMarkers[uid]) { map.removeLayer(volunteerMarkers[uid]); delete volunteerMarkers[uid]; } });
+  }
+
+  /******************************
+   * Panic shake detection
+   ******************************/
+  if ('DeviceMotionEvent' in window) {
+    let lastShake = 0;
+    window.addEventListener('devicemotion', function(e) {
+      const acc = e.accelerationIncludingGravity; if (!acc) return;
+      const magnitude = Math.sqrt((acc.x||0)**2 + (acc.y||0)**2 + (acc.z||0)**2);
+      if (magnitude > 25 && Date.now() - lastShake > 4000) { lastShake = Date.now();
+        if (confirm('Shake detected. Send SOS now?')) { document.getElementById('sosBtn').click(); }
+      }
+    });
+  }
+
+  /******************************
+   * Service Worker (offline)
+   ******************************/
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw-sahayta.js').then(reg => console.log('SW registered', reg.scope)).catch(err => console.warn('SW failed', err));
+  }
+  const swContent = `const CACHE_NAME='sahayta-cache-v1'; self.addEventListener('install', e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(['/'])))); self.addEventListener('fetch', e=>{ const req=e.request; if (req.url.includes('tile.openstreetmap.org')||req.url.includes('basemaps.cartocdn.com')||req.url.includes(self.location.origin)) e.respondWith(caches.open(CACHE_NAME).then(cache=>cache.match(req).then(r=>r||fetch(req).then(res=>{ cache.put(req,res.clone()); return res;})))); else e.respondWith(fetch(req)); });`;
+  fetch('sw-sahayta.js', { method:'HEAD' }).catch(()=> { const blob=new Blob([swContent], { type: 'text/javascript' }); const url=URL.createObjectURL(blob); navigator.serviceWorker.register(url).catch(()=>{}); });
+
+  /******************************
+   * UI controls (injected) & wiring
+   ******************************/
+  const controlsDiv = document.createElement('div');
+  controlsDiv.className = 'controls';
+  controlsDiv.innerHTML = `
+    <button id="locateBtn" class="btn-lite">Locate</button>
+    <button id="nearestBtn" class="btn-lite">Nearest</button>
+    <button id="routeBtn" class="btn-lite">Route</button>
+    <button id="darkBtn" class="btn-lite">Dark</button>
+    <button id="openChatBtn" class="btn-lite">Chat</button>
+  `;
+  document.body.appendChild(controlsDiv);
+
+  document.getElementById('locateBtn').addEventListener('click', toggleLocateWatch);
+  document.getElementById('nearestBtn').addEventListener('click', ()=> { const t = prompt('Find nearest (Hospital / Police / NGO / Shelter):','Hospital'); if (t) findNearest(t); });
+  document.getElementById('routeBtn').addEventListener('click', ()=> { const name = prompt('Enter resource name for routing (exact):','KEM Hospital'); if (!name) return; const found = ALL_RESOURCES.find(r=>r.name.toLowerCase()===name.toLowerCase()); if (!found) return alert('Not found'); if (!userLatLng) return alert('Enable location'); if (routingControl) map.removeControl(routingControl); routingControl = L.Routing.control({ waypoints:[ L.latLng(userLatLng[0],userLatLng[1]), L.latLng(found.coords[0],found.coords[1]) ] }).addTo(map); });
+  document.getElementById('darkBtn').addEventListener('click', ()=> { darkMode = !darkMode; if (darkMode) { map.addLayer(cartoDark); map.removeLayer(osm); document.getElementById('darkBtn').textContent='Light'; } else { map.addLayer(osm); map.removeLayer(cartoDark); document.getElementById('darkBtn').textContent='Dark'; } });
+  document.getElementById('openChatBtn').addEventListener('click', ()=> { document.getElementById('chatContainer').style.display = 'block'; });
+
+  document.getElementById('clearSosBtn').addEventListener('click', ()=> { document.getElementById('sosList').innerHTML = '<div class="small">Local list cleared</div>'; });
+  document.getElementById('exportSosBtn').addEventListener('click', ()=> { console.log('SOS markers', sosMarkers); alert('Exported to console'); });
+  document.getElementById('centerAllBtn').addEventListener('click', ()=> {
+    const all = Array.from(displayedResourceIds).map(id => resourceMarkers[id] && resourceMarkers[id].marker).concat(Object.values(sosMarkers), Object.values(volunteerMarkers), userMarker ? [userMarker]: []);
+    const group = new L.featureGroup(all.filter(Boolean));
+    if (group.getLayers().length) map.fitBounds(group.getBounds().pad(0.2));
+  });
+
+  // click to add (temporary) marker
+  map.on('click', e => { L.marker(e.latlng).addTo(map).bindPopup(`Custom marker<br>${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`).openPopup(); });
+
+  // init firebase listeners if configured
+  (function initIfFirebaseConfigured(){
+    if (firebaseConfig && firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('REPLACE') && auth) {
+      auth.onAuthStateChanged(user => { if (user) { setupAfterAuth(user); initSosListener(); initChatListener(); initVolunteerListener(); } });
+    } else {
+      console.warn('Firebase placeholders detected. Replace firebaseConfig to enable DB/auth features.');
+    }
+  })();
+
+  // initial fit to loaded markers after small delay
+  setTimeout(()=> {
+    loadResourcesInBounds();
+    const all = Array.from(displayedResourceIds).map(id => resourceMarkers[id] && resourceMarkers[id].marker);
+    const group = new L.featureGroup(all.filter(Boolean));
+    if (group.getLayers().length) map.fitBounds(group.getBounds().pad(0.2));
+  }, 700);
+
+  // mobile menu toggle
+  function toggleMobileMenu(){ const el=document.getElementById('mobile-menu'); el.classList.toggle('hidden'); }
+
+  </script>
+</body>
+</html>

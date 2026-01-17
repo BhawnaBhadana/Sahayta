@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sahayta - Login / Signup</title>
+
+  <style>
+    :root {
+      --primary: #4e6af5;
+      --light-bg: #f8fafc;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+    }
+
+    body {
+      background: var(--light-bg);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .auth-card {
+      width: 380px;
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0px 8px 22px rgba(0,0,0,0.06);
+      text-align: center;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .toggle {
+      margin-top: 18px;
+      font-size: 14px;
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    #signup { display: none; }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-card">
+
+    <!-- LOGIN FORM -->
+    <div id="login">
+      <p class="title">Welcome Back 👋</p>
+      <p class="subtitle">Login to continue using Sahayta</p>
+
+      <input type="email" id="loginEmail" placeholder="Email Address" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+
+      <button onclick="loginUser()">Login</button>
+
+      <p class="toggle" onclick="showSignup()">Don't have an account? Sign up</p>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signup">
+      <p class="title">Create Account ✨</p>
+      <p class="subtitle">Join Sahayta — Stay Safe, Stay Updated</p>
+
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="signupEmail" placeholder="Email Address" required />
+      <input type="password" id="signupPassword" placeholder="Create Password" required />
+
+      <button onclick="signupUser()">Sign Up</button>
+
+      <p class="toggle" onclick="showLogin()">Already have an account? Login</p>
+    </div>
+
+  </div>
+
+  <script>
+
+    const BASE_URL = "http://localhost:5000/api/auth"; // make sure your backend port is correct
+
+    function showSignup() {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("signup").style.display = "block";
+    }
+
+    function showLogin() {
+      document.getElementById("signup").style.display = "none";
+      document.getElementById("login").style.display = "block";
+    }
+
+    // SIGNUP
+    async function signupUser() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value.trim();
+
+      if (!name || !email || !password) {
+        alert("All fields are required.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${BASE_URL}/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }) // changed from username → name
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("Signup successful! Please login.");
+          showLogin();
+        } else {
+          alert(data.message || "Signup failed.");
+        }
+
+      } catch (err) {
+        alert("Server error!");
+        console.error(err);
+      }
+    }
+
+    // LOGIN
+    async function loginUser() {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if (!email || !password) {
+        alert("Email and password required.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${BASE_URL}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          localStorage.setItem("user", JSON.stringify(data.user || {})); // save user info
+          alert("Login successful!");
+          window.location.href = "./crisis_dashboard_homepage.html"; // redirect after login
+        } else {
+          alert(data.message || "Invalid login.");
+        }
+
+      } catch (err) {
+        alert("Server error!");
+        console.error(err);
+      }
+    }
+
+  </script>
+
+</body>
+</html>
